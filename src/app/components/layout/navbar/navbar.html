@@ -1,0 +1,61 @@
+<!-- ==================================================== -->
+<!-- ARCHIVO: navbar.html -->
+<!-- DESCRIPCIÓN: Componente de barra de navegación superior -->
+<!-- FUNCIONALIDAD: 
+    - Logo y título de la aplicación
+    - Notificaciones (campana con indicador)
+    - Menú de usuario con opción de logout
+-->
+<!-- NOTAS:
+    - Navbar sticky que permanece al hacer scroll
+    - Diseño responsive (oculta username en móvil)
+    - Dropdown de usuario con funcionalidad básica
+    - Estilos con variables CSS del sistema de diseño
+    - Icono de notificaciones con badge de alerta
+    - Logout con estilo destructivo/rojo
+    - Iconos representativos mediante emojis genéricos <----- **CAMBIAR POR ICONOS DE MEJOR ESTILO (TODOS LOS ARCHIVOS)**
+-->
+<!-- ==================================================== -->
+
+<nav class="bg-card border-b border-border sticky top-0 z-40 shadow-sm">
+    <div class="px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                        <span class="text-primary-foreground font-bold text-xl">SA</span>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-foreground">Secretaría Académica</h1>
+                        <p class="text-xs text-muted-foreground">Sistema de Gestión Modular</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button class="p-2 rounded relative" style="border: none; background: transparent;">
+                    <span class="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full"></span>
+                </button>
+
+                <div class="relative">
+                    <button class="flex items-center gap-2 p-2 rounded" style="border: none; background: transparent;">
+                        <span style="font-size: 1.125rem;">👤</span>
+                        <span class="hidden md:inline">{{user.username}}</span>
+                    </button>
+                    
+                    <!-- Dropdown menu básico -->
+                    <div class="absolute right-0 mt-2 w-48 bg-card rounded-md shadow-lg border border-border hidden">
+                        <div class="p-3 border-b border-border">
+                            <p class="font-medium">{{user.username}}</p>
+                            <p class="text-xs text-muted-foreground capitalize">{{user.role}}</p>
+                        </div>
+                        <button (click)="handleLogout()" class="w-full text-left p-3 cursor-pointer" 
+                                style="color: hsl(var(--destructive)); border: none; background: transparent;">
+                            Cerrar Sesión
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,117 @@
+<!-- ==================================================== -->
+<!-- ARCHIVO: docentes.html -->
+<!-- DESCRIPCIÓN: Página de gestión de base de datos docente -->
+<!-- FUNCIONALIDAD: 
+    - Lista completa de docentes con información detallada
+    - Búsqueda y filtrado de docentes
+    - Acciones de gestión (agregar, exportar, ver detalles)
+    - Visualización de estado y categorías SNI
+    - Tabla responsive con información organizada
+-->
+<!-- NOTAS:
+    - Layout completo con navbar, sidebar y footer
+    - Header con título y botón de acción principal
+    - Barra de búsqueda y herramientas de filtrado
+    - Tabla personalizada con estilos CSS nativos
+    - Badges condicionales para SNI y Status
+    - Colores semánticos: primario para SNI, éxito para activos
+    - Diseño responsive con scroll horizontal en tablas pequeñas
+    - Acciones básicas: Ver Detalles (expandir funcionalidad)
+    - TODO: Implementar funcionalidad de búsqueda en tiempo real
+    - TODO: Implementar filtros avanzados por área/grado
+    - Iconos representativos mediante emojis genéricos <----- **CAMBIAR POR ICONOS DE MEJOR ESTILO (TODOS LOS ARCHIVOS)**
+-->
+<!-- ==================================================== -->
+
+<div class="flex flex-col min-h-screen">
+    <app-navbar></app-navbar>
+    <div class="flex flex-1">
+        <app-sidebar></app-sidebar>
+        <main class="flex-1 p-6 bg-background">
+            <div style="max-width: 80rem; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem;">
+                
+                <!-- Header -->
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold text-foreground mb-2">Tablero de Docentes</h1>
+                        <p class="text-muted-foreground">
+                            Gestión y visualización de la base de datos docente
+                        </p>
+                    </div>
+                    <button class="bg-primary text-primary-foreground py-2 px-4 rounded flex items-center gap-2">
+                        <span>➕</span>
+                        Agregar Docente
+                    </button>
+                </div>
+
+                <!-- Search and Filters -->
+                <div class="flex gap-4">
+                    <div class="relative" style="flex: 1;">
+                        <input
+                            placeholder="Buscar docente por nombre, área o grado..."
+                            style="padding-left: 2.5rem; width: 100%; border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 0.5rem;"
+                        />
+                    </div>
+                    <button class="border border-border py-2 px-4 rounded flex items-center gap-2">
+                        <span>⚙️</span>
+                        Filtros
+                    </button>
+                    <button class="border border-border py-2 px-4 rounded flex items-center gap-2">
+                        <span>📥</span>
+                        Exportar
+                    </button>
+                </div>
+
+                <!-- Table -->
+                <div class="bg-card rounded-lg shadow-sm">
+                    <div class="p-6 border-b border-border">
+                        <h3 class="text-lg font-semibold">Lista de Docentes</h3>
+                    </div>
+                    <div class="p-6">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid hsl(var(--border));">
+                                    <th style="text-align: left; padding: 0.75rem; font-weight: 500;">ID</th>
+                                    <th style="text-align: left; padding: 0.75rem; font-weight: 500;">Nombre</th>
+                                    <th style="text-align: left; padding: 0.75rem; font-weight: 500;">Área</th>
+                                    <th style="text-align: left; padding: 0.75rem; font-weight: 500;">Grado</th>
+                                    <th style="text-align: left; padding: 0.75rem; font-weight: 500;">SNI</th>
+                                    <th style="text-align: left; padding: 0.75rem; font-weight: 500;">Status</th>
+                                    <th style="text-align: right; padding: 0.75rem; font-weight: 500;">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let docente of docentes" style="border-bottom: 1px solid hsl(var(--border));">
+                                    <td style="padding: 0.75rem; font-weight: 500;">{{docente.id}}</td>
+                                    <td style="padding: 0.75rem;">{{docente.nombre}}</td>
+                                    <td style="padding: 0.75rem;">{{docente.area}}</td>
+                                    <td style="padding: 0.75rem;">{{docente.grado}}</td>
+                                    <td style="padding: 0.75rem;">
+                                        <span [style]="'display: inline-block; padding: 0.25rem 0.5rem; border-radius: var(--radius); font-size: 0.75rem; ' + 
+                                            (docente.sni !== 'N/A' ? 'background-color: hsl(var(--primary)); color: hsl(var(--primary-foreground));' : 
+                                            'background-color: hsl(var(--muted)); color: hsl(var(--muted-foreground));')">
+                                            {{docente.sni}}
+                                        </span>
+                                    </td>
+                                    <td style="padding: 0.75rem;">
+                                        <span [style]="'display: inline-block; padding: 0.25rem 0.5rem; border-radius: var(--radius); font-size: 0.75rem; ' + 
+                                            (docente.status === 'Activo' ? 'background-color: hsl(var(--success)); color: hsl(var(--success-foreground));' : 
+                                            'background-color: hsl(var(--muted)); color: hsl(var(--muted-foreground));')">
+                                            {{docente.status}}
+                                        </span>
+                                    </td>
+                                    <td style="padding: 0.75rem; text-align: right;">
+                                        <button style="border: none; background: transparent; color: hsl(var(--primary)); font-size: 0.875rem;">
+                                            Ver Detalles
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <app-footer></app-footer>
+</div>
