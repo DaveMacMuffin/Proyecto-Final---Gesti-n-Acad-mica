@@ -29,7 +29,7 @@
         <app-sidebar></app-sidebar>
         <main class="flex-1 p-6 bg-background">
             <div style="max-width: 80rem; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem;">
-                
+
                 <!-- Header -->
                 <div class="flex items-center justify-between">
                     <div>
@@ -38,7 +38,8 @@
                             Gestión y visualización de la base de datos docente
                         </p>
                     </div>
-                    <button class="bg-primary text-primary-foreground py-2 px-4 rounded flex items-center gap-2">
+                    <button data-toggle="modal" data-target="#exampleModal"
+                        class="bg-primary text-primary-foreground py-2 px-4 rounded flex items-center gap-2">
                         <span>➕</span>
                         Agregar Docente
                     </button>
@@ -47,15 +48,11 @@
                 <!-- Search and Filters -->
                 <div class="flex gap-4">
                     <div class="relative" style="flex: 1;">
-                        <input
-                            placeholder="Buscar docente por nombre, área o grado..."
-                            style="padding-left: 2.5rem; width: 100%; border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 0.5rem;"
-                        />
+                        <input placeholder="Buscar docente por nombre, área, grado, SNI o status..."
+                            [(ngModel)]="terminoBusqueda" (input)="searchFilter()"
+                            style="padding-left: 2.5rem; width: 100%; border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 0.5rem;" />
+
                     </div>
-                    <button class="border border-border py-2 px-4 rounded flex items-center gap-2">
-                        <span>⚙️</span>
-                        Filtros
-                    </button>
                     <button class="border border-border py-2 px-4 rounded flex items-center gap-2">
                         <span>📥</span>
                         Exportar
@@ -75,35 +72,44 @@
                                     <th style="text-align: left; padding: 0.75rem; font-weight: 500;">Nombre</th>
                                     <th style="text-align: left; padding: 0.75rem; font-weight: 500;">Área</th>
                                     <th style="text-align: left; padding: 0.75rem; font-weight: 500;">Grado</th>
+                                    <th style="text-align: left; padding: 0.75rem; font-weight: 500;">Idioma</th>
                                     <th style="text-align: left; padding: 0.75rem; font-weight: 500;">SNI</th>
                                     <th style="text-align: left; padding: 0.75rem; font-weight: 500;">Status</th>
                                     <th style="text-align: right; padding: 0.75rem; font-weight: 500;">Acciones</th>
+
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let docente of docentes" style="border-bottom: 1px solid hsl(var(--border));">
-                                    <td style="padding: 0.75rem; font-weight: 500;">{{docente.id}}</td>
+                                <tr *ngFor="let docente of docentesFiltrados; let i = index"
+                                    style="border-bottom: 1px solid hsl(var(--border));">
+                                    <td style="padding: 0.75rem;">{{ i + 1 }}</td> <!-- Número de fila: 1,2,3... -->
                                     <td style="padding: 0.75rem;">{{docente.nombre}}</td>
-                                    <td style="padding: 0.75rem;">{{docente.area}}</td>
+                                    <td style="padding: 0.75rem;">{{docente.academia}}</td>
                                     <td style="padding: 0.75rem;">{{docente.grado}}</td>
+                                    <td style="padding: 0.75rem;">{{ docente.idioma }}</td>
                                     <td style="padding: 0.75rem;">
-                                        <span [style]="'display: inline-block; padding: 0.25rem 0.5rem; border-radius: var(--radius); font-size: 0.75rem; ' + 
+                                        <span
+                                            [style]="'display: inline-block; padding: 0.25rem 0.5rem; border-radius: var(--radius); font-size: 0.75rem; ' + 
                                             (docente.sni !== 'N/A' ? 'background-color: hsl(var(--primary)); color: hsl(var(--primary-foreground));' : 
                                             'background-color: hsl(var(--muted)); color: hsl(var(--muted-foreground));')">
                                             {{docente.sni}}
                                         </span>
                                     </td>
                                     <td style="padding: 0.75rem;">
-                                        <span [style]="'display: inline-block; padding: 0.25rem 0.5rem; border-radius: var(--radius); font-size: 0.75rem; ' + 
+                                        <span
+                                            [style]="'display: inline-block; padding: 0.25rem 0.5rem; border-radius: var(--radius); font-size: 0.75rem; ' + 
                                             (docente.status === 'Activo' ? 'background-color: hsl(var(--success)); color: hsl(var(--success-foreground));' : 
                                             'background-color: hsl(var(--muted)); color: hsl(var(--muted-foreground));')">
                                             {{docente.status}}
                                         </span>
                                     </td>
                                     <td style="padding: 0.75rem; text-align: right;">
-                                        <button style="border: none; background: transparent; color: hsl(var(--primary)); font-size: 0.875rem;">
+                                        <button
+                                            style="border: none; background: transparent; color: hsl(var(--primary)); font-size: 0.875rem;">
                                             Ver Detalles
                                         </button>
+                                    
+                                    
                                     </td>
                                 </tr>
                             </tbody>
@@ -112,6 +118,77 @@
                 </div>
             </div>
         </main>
+    </div>
+    <!-- Button trigger modal -->
+    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button>
+-->
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Añadir docente</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input class="form-control" name="nombre" [(ngModel)]="nuevoDocente.nombre"
+                            placeholder="Ingrese el nombre del docente">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Correo</label>
+                        <input class="form-control" name="correo" [(ngModel)]="nuevoDocente.correo"
+                            placeholder="Ingrese el correo del docente">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Academia</label>
+                        <input class="form-control" name="academia" [(ngModel)]="nuevoDocente.academia"
+                            placeholder="Ingrese la academia del docente">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Grado</label>
+                        <input class="form-control" name="grado" [(ngModel)]="nuevoDocente.grado"
+                            placeholder="Ingrese el grado del docente">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Idioma</label>
+                        <input class="form-control" name="idioma" [(ngModel)]="nuevoDocente.idioma"
+                            placeholder="Ingrese el idioma del docente">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">SNI</label>
+                        <select class="form-select" name="sni" [(ngModel)]="nuevoDocente.sni">
+                            <option value="Nivel I">Nivel I</option>
+                            <option value="Nivel II">Nivel II</option>
+                            <option value="Nivel III">Nivel III</option>
+                            <option value="Sin SNI">Sin SNI</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select class="form-select" name="status" [(ngModel)]="nuevoDocente.status">
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="guardarDocente()"> Save changes</button>
+                </div>
+            </div>
+        </div>
     </div>
     <app-footer></app-footer>
 </div>
