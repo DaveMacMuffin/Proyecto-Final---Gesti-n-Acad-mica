@@ -41,7 +41,8 @@
                             Gestión centralizada de solicitudes y reportes
                         </p>
                     </div>
-                    <button class="bg-primary text-primary-foreground py-2 px-4 rounded flex items-center gap-2">
+                    <button data-toggle="modal" data-target="#exampleModal"
+                        class="bg-primary text-primary-foreground py-2 px-4 rounded flex items-center gap-2">
                         <span>➕</span>
                         Nuevo Ticket
                     </button>
@@ -54,7 +55,7 @@
                             <h3 class="text-sm font-medium text-muted-foreground">Pendientes</h3>
                             <span style="color: hsl(var(--warning));">⏰</span>
                         </div>
-                        <div class="text-3xl font-bold">23</div>
+                        <div class="text-3xl font-bold">{{tot_pendientes}}</div>
                     </div>
 
                     <div class="bg-card rounded-lg shadow-sm p-4">
@@ -62,7 +63,7 @@
                             <h3 class="text-sm font-medium text-muted-foreground">En Proceso</h3>
                             <span style="color: hsl(var(--info));">⚠️</span>
                         </div>
-                        <div class="text-3xl font-bold">12</div>
+                        <div class="text-3xl font-bold">{{tot_proceso}}</div>
                     </div>
 
                     <div class="bg-card rounded-lg shadow-sm p-4">
@@ -70,32 +71,33 @@
                             <h3 class="text-sm font-medium text-muted-foreground">Resueltos (Mes)</h3>
                             <span style="color: hsl(var(--success));">✅</span>
                         </div>
-                        <div class="text-3xl font-bold">87</div>
+                        <div class="text-3xl font-bold">{{tot_resueltos}}</div>
                     </div>
                 </div>
 
                 <!-- Search and Filters -->
                 <div class="flex gap-4">
                     <div class="relative" style="flex: 1;">
-                        <input
-                            placeholder="Buscar por ID, profesor o categoría..."
-                            style="padding-left: 2.5rem; width: 100%; border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 0.5rem;"
-                        />
+                        <input placeholder="Buscar por ID, profesor o categoría..." [(ngModel)]="terminoBusqueda"
+                            (input)="searchFilterTicket()"
+                            style="padding-left: 2.5rem; width: 100%; border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 0.5rem;" />
                     </div>
-                    
-                    <select style="width: 12rem; border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 0.5rem;">
-                        <option value="todos">Todas las categorías</option>
-                        <option value="calificacion">Cambio Calificación</option>
-                        <option value="examen">Cambio Fecha Examen</option>
-                        <option value="integridad">Integridad Académica</option>
-                        <option value="disciplinar">Reporte Disciplinar</option>
-                        <option value="pago">Incidencia de Pago</option>
+
+                    <select [(ngModel)]="categoriaSeleccionada" (change)="aplicarFiltrosTipo()"
+                        style="width: 12rem; border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 0.5rem;">
+                        <option value="Todas las categorías">Todas las categorías</option>
+                        <option value="Cambio de calificación">Cambio Calificación</option>
+                        <option value="Cambio de fecha de examen">Cambio Fecha Examen</option>
+                        <option value="Integridad académica">Integridad Académica</option>
+                        <option value="Reporte disciplinar">Reporte Disciplinar</option>
+                        <option value="Incidencia de pago">Incidencia de Pago</option>
                     </select>
 
-                    <select style="width: 12rem; border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 0.5rem;">
-                        <option value="reciente">Más reciente</option>
-                        <option value="antiguo">Más antiguo</option>
-                        <option value="prioridad">Por prioridad</option>
+                    <select [(ngModel)]="ordenSeleccionado" (change)="aplicarFiltrosFecha()"
+                        style="width: 12rem; border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 0.5rem;">
+                        <option value="Reciente">Más reciente</option>
+                        <option value="Antiguo">Más antiguo</option>
+                        <option value="Prioridad">Por prioridad</option>
                     </select>
                 </div>
 
@@ -105,27 +107,32 @@
                         <h3 class="text-lg font-semibold">Lista de Tickets</h3>
                     </div>
                     <div class="p-6">
-                        <div style="max-height: 500px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem;">
-                            <div *ngFor="let ticket of tickets" class="flex items-center justify-between p-4 border border-border rounded-lg">
+                        <div
+                            style="max-height: 500px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem;">
+                            <div *ngFor="let ticket of ticketsFiltrados"
+                                class="flex items-center justify-between p-4 border border-border rounded-lg">
                                 <div class="flex items-center gap-4" style="flex: 1;">
                                     <div class="flex flex-col">
-                                        <span style="font-family: monospace; font-weight: bold; font-size: 0.875rem;">{{ticket.id}}</span>
+                                        <span
+                                            style="font-family: monospace; font-weight: bold; font-size: 0.875rem;">{{ticket.id}}</span>
                                         <span class="text-xs text-muted-foreground">{{ticket.fecha}}</span>
                                     </div>
-                                    
+
                                     <div style="flex: 1;">
                                         <p class="font-semibold">{{ticket.tipo}}</p>
                                         <p class="text-sm text-muted-foreground">{{ticket.profesor}}</p>
                                     </div>
 
                                     <div class="flex items-center gap-2">
-                                        <span [style]="'display: inline-block; padding: 0.25rem 0.5rem; border-radius: var(--radius); font-size: 0.75rem; ' + 
+                                        <span
+                                            [style]="'display: inline-block; padding: 0.25rem 0.5rem; border-radius: var(--radius); font-size: 0.75rem; ' + 
                                             (ticket.prioridad === 'Alta' ? 'background-color: hsl(var(--destructive)); color: hsl(var(--destructive-foreground));' :
                                             ticket.prioridad === 'Media' ? 'background-color: hsl(var(--primary)); color: hsl(var(--primary-foreground));' :
                                             'background-color: hsl(var(--muted)); color: hsl(var(--muted-foreground));')">
                                             {{ticket.prioridad}}
                                         </span>
-                                        <span [style]="'display: inline-block; padding: 0.25rem 0.5rem; border-radius: var(--radius); font-size: 0.75rem; border: 1px solid; ' + 
+                                        <span
+                                            [style]="'display: inline-block; padding: 0.25rem 0.5rem; border-radius: var(--radius); font-size: 0.75rem; border: 1px solid; ' + 
                                             (ticket.status === 'Pendiente' ? 'background-color: hsl(var(--warning), 0.1); color: hsl(var(--warning)); border-color: hsl(var(--warning), 0.2);' :
                                             ticket.status === 'En Proceso' ? 'background-color: hsl(var(--info), 0.1); color: hsl(var(--info)); border-color: hsl(var(--info), 0.2);' :
                                             'background-color: hsl(var(--success), 0.1); color: hsl(var(--success)); border-color: hsl(var(--success), 0.2);')">
@@ -134,7 +141,8 @@
                                     </div>
                                 </div>
 
-                                <button style="border: none; background: transparent; color: hsl(var(--primary)); font-size: 0.875rem;">
+                                <button
+                                    style="border: none; background: transparent; color: hsl(var(--primary)); font-size: 0.875rem;">
                                     Ver Detalles
                                 </button>
                             </div>
@@ -143,6 +151,54 @@
                 </div>
             </div>
         </main>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Añadir docente</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de ticket</label>
+                        <input class="form-control" name="tipo" [(ngModel)]="nuevoTicket.tipo"
+                            placeholder="Ingrese el tipo del ticket">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Descripción del Ticket</label>
+                        <input class="form-control" name="descripcion" [(ngModel)]="nuevoTicket.descripcion"
+                            placeholder="Ingrese la descripcion del ticket">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Prioridad</label>
+                        <select class="form-select" name="prioridad" [(ngModel)]="nuevoTicket.prioridad">
+                            <option value="Alta"> Alta</option>
+                            <option value="Media">Media</option>
+                            <option value="Baja">Baja</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Docente</label>
+                        <select class="form-select" [(ngModel)]="nuevoTicket.id_docente" name="docente">
+                            <option [ngValue]="null">Selecciona un docente</option>
+                            <option *ngFor="let d of listaDocentes" [ngValue]="d.id_docente">
+                                {{ d.nombre }} ({{ d.academia }})
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="guardarTicket()"> Save changes</button>
+                </div>
+            </div>
+        </div>
     </div>
     <app-footer></app-footer>
 </div>
