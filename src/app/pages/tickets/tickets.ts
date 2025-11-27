@@ -134,11 +134,11 @@ export class Tickets {
     // 2) Ordenamiento
     if (this.ordenSeleccionado === 'Reciente') {
       resultado.sort((a: any, b: any) => {
-        if (a.fecha < b.fecha) 
+        if (a.fecha < b.fecha)  
           {
           return 1;
         } 
-        else 
+        else  
           {
           return -1;
         }
@@ -146,7 +146,7 @@ export class Tickets {
     }
     else if (this.ordenSeleccionado === 'Antiguo') {
       resultado.sort((a: any, b: any) => {
-        if (a.fecha > b.fecha) {
+        if (a.fecha > b.fecha) { 
           return 1;
         } else {
           return -1;
@@ -173,3 +173,4 @@ export class Tickets {
   }
 
 }
+
