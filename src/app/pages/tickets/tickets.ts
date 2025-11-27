@@ -22,6 +22,7 @@
 // ====================================================
 
 import { Component } from '@angular/core';
+import { SqlService } from '../../srv/docentes.service';
 
 @Component({
   selector: 'app-tickets',
@@ -30,46 +31,145 @@ import { Component } from '@angular/core';
   styleUrls: ['./tickets.css']
 })
 export class Tickets {
-  tickets = [
-    {
-      id: 'T-001',
-      tipo: 'Cambio de Calificación',
-      profesor: 'Dr. Juan Pérez',
-      fecha: '2024-01-15',
-      prioridad: 'Alta',
-      status: 'Pendiente',
-    },
-    {
-      id: 'T-002',
-      tipo: 'Cambio Fecha Examen',
-      profesor: 'Dra. María García',
-      fecha: '2024-01-14',
-      prioridad: 'Media',
-      status: 'En Proceso',
-    },
-    {
-      id: 'T-003',
-      tipo: 'Integridad Académica',
-      profesor: 'Mtro. Carlos López',
-      fecha: '2024-01-13',
-      prioridad: 'Alta',
-      status: 'Resuelto',
-    },
-    {
-      id: 'T-004',
-      tipo: 'Incidencia de Pago',
-      profesor: 'Dr. Ana Martínez',
-      fecha: '2024-01-12',
-      prioridad: 'Media',
-      status: 'Pendiente',
-    },
-    {
-      id: 'T-005',
-      tipo: 'Reporte Disciplinar',
-      profesor: 'Dra. Rosa Torres',
-      fecha: '2024-01-10',
-      prioridad: 'Baja',
-      status: 'Resuelto',
-    },
-  ];
+  tickets: any = [];
+  ticketsFiltrados: any = [];
+  listaDocentes: any = [];
+  terminoBusqueda: string = '';
+  categoriaSeleccionada = 'Todas las categorías';
+  ordenSeleccionado = 'Reciente';
+
+  tot_pendientes = 0;
+  tot_proceso = 0;
+  tot_resueltos = 0;
+
+  nuevoTicket = {
+    id_ticket: '',
+    tipo: '',
+    descripcion: '',
+    prioridad: '',
+    estado: '',
+    id_docente: '',
+    fecha_creacion: '',
+    fecha_cierre: '',
+  };
+
+  constructor(private sql: SqlService) { }   // MISMO servicio que en docentes.ts
+
+  async ngOnInit() {
+    this.listaDocentes = await this.sql.conectarAPI();
+    await this.cargarTickets();
+    await this.cargarCintaTickets();
+
+  }
+  async guardarTicket() {
+    await this.sql.agregarTicket(this.nuevoTicket);
+
+    const btnClose = document.querySelector('[data-dismiss="modal"]') as HTMLElement;
+    if (btnClose) btnClose.click();
+
+    this.nuevoTicket = {
+      id_ticket: '',
+      tipo: '',
+      descripcion: '',
+      prioridad: '',
+      estado: '',
+      id_docente: '',
+      fecha_creacion: '',
+      fecha_cierre: '',
+    };
+    // refrescar la tabla
+    await this.cargarTickets();
+
+
+  }
+  async cargarTickets() {
+    this.tickets = await this.sql.conectarAPI2();  // tu función que hace el $.ajax GET
+    this.ticketsFiltrados = [...this.tickets]; //copia de docentes para que al inicio la tabla muestre todo
+  }
+
+  searchFilterTicket() {
+    // Pasamos lo que escribió el usuario a minúsculas y sin espacios extra
+    const term = this.terminoBusqueda.toLowerCase().trim();
+
+    // Si no hay nada escrito → mostrar todos
+    if (!term) {
+      this.ticketsFiltrados = [...this.tickets];
+      return;
+    }
+
+    // Si hay texto, filtramos
+    this.ticketsFiltrados = this.tickets.filter((t: any) => {
+      // Sacamos cada campo y lo pasamos a string minúscula
+      const id = (t.id + '').toLowerCase();
+      const tipo = (t.tipo + '').toLowerCase();
+      const profesor = (t.profesor || '').toLowerCase();
+      const prioridad = (t.prioridad || '').toLowerCase();
+      const estado = (t.estado || '').toLowerCase();
+
+      return (
+        id.includes(term) ||
+        tipo.includes(term) ||
+        profesor.includes(term) ||
+        prioridad.includes(term) ||
+        estado.includes(term)
+      );
+    });
+  }
+  aplicarFiltrosTipo() {
+    let resultado = this.tickets;
+
+    // 1) Filtro por categoría
+    if (this.categoriaSeleccionada !== 'Todas las categorías') {
+      resultado = resultado.filter((t: any) =>
+        t.tipo === this.categoriaSeleccionada
+      );
+    }
+
+    this.ticketsFiltrados = resultado;
+
+  }
+  aplicarFiltrosFecha() {
+    let resultado = [...this.ticketsFiltrados];
+
+    // 2) Ordenamiento
+    if (this.ordenSeleccionado === 'Reciente') {
+      resultado.sort((a: any, b: any) => {
+        if (a.fecha < b.fecha) 
+          {
+          return 1;
+        } 
+        else 
+          {
+          return -1;
+        }
+      });
+    }
+    else if (this.ordenSeleccionado === 'Antiguo') {
+      resultado.sort((a: any, b: any) => {
+        if (a.fecha > b.fecha) {
+          return 1;
+        } else {
+          return -1;
+        }
+      });
+    }
+    else if (this.ordenSeleccionado === 'Prioridad') {
+      const peso: any = { Alta: 3, Media: 2, Baja: 1 };
+      resultado.sort((a: any, b: any) =>
+        (peso[b.prioridad] || 0) - (peso[a.prioridad] || 0)
+      );
+    }
+
+    this.ticketsFiltrados = resultado;
+  }
+  async cargarCintaTickets() {
+
+    const num_tickets: any = await this.sql.getCintaTickets();
+    console.log("Cantidades:", num_tickets);
+
+    this.tot_pendientes = num_tickets.pendientes || 0;
+    this.tot_proceso = num_tickets.en_proceso || 0;
+    this.tot_resueltos = num_tickets.resueltos_mes || 0;
+  }
+
 }
