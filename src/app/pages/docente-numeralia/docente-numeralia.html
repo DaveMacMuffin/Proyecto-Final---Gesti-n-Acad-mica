@@ -117,28 +117,37 @@
                     </div>
 
                     <!-- Resumen Ejecutivo -->
+                    <!-- Resumen Ejecutivo -->
                     <div class="bg-card rounded-lg shadow-sm">
                         <div class="p-6 border-b border-border">
                             <h3 class="text-lg font-semibold">Resumen Ejecutivo</h3>
                         </div>
                         <div class="p-6" style="display: flex; flex-direction: column; gap: 0.75rem;">
-                            <div class="p-3 rounded-lg border" style="background-color: hsl(var(--success), 0.1); border-color: hsl(var(--success), 0.2);">
+
+                            <div class="p-3 rounded-lg border"
+                                style="background-color: hsl(var(--success), 0.1); border-color: hsl(var(--success), 0.2);">
                                 <p class="text-sm font-medium" style="color: hsl(var(--success));">
-                                    91% de la planta docente está activa
+                                    {{ porcentajeActivos }}% de la planta docente está activa
                                 </p>
                             </div>
-                            <div class="p-3 rounded-lg border" style="background-color: hsl(var(--info), 0.1); border-color: hsl(var(--info), 0.2);">
+
+                            <div class="p-3 rounded-lg border"
+                                style="background-color: hsl(var(--info), 0.1); border-color: hsl(var(--info), 0.2);">
                                 <p class="text-sm font-medium" style="color: hsl(var(--info));">
-                                    57% cuenta con grado de doctorado
+                                    {{ porcentajeDoctoradoGeneral }}% cuenta con grado de doctorado
                                 </p>
                             </div>
-                            <div class="p-3 rounded-lg border" style="background-color: hsl(var(--accent), 0.1); border-color: hsl(var(--accent), 0.2);">
+
+                            <div class="p-3 rounded-lg border"
+                                style="background-color: hsl(var(--accent), 0.1); border-color: hsl(var(--accent), 0.2);">
                                 <p class="text-sm font-medium" style="color: hsl(var(--accent));">
-                                    45 investigadores en SNI activos
+                                    {{ sniActivos }} investigadores en SNI activos
                                 </p>
                             </div>
+
                         </div>
                     </div>
+
                 </div>
             </div>
         </main>
