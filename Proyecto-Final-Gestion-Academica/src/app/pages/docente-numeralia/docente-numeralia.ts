@@ -1,24 +1,3 @@
-// ====================================================
-// ARCHIVO: docente-numeralia.ts
-// DESCRIPCIÓN: Componente TypeScript de Numeralia Docente
-// FUNCIONALIDAD: 
-//   - Provee datos para estadísticas de planta docente
-//   - Maneja distribuciones por grado académico
-//   - Controla datos de investigadores SNI
-//   - Gestiona competencias de idioma del personal
-//   - Define estructura para visualización de métricas
-// NOTAS:
-//   - Datos mock/estáticos para demostración
-//   - Stats principales con iconos emoji representativos
-//   - Distribuciones con porcentajes calculados
-//   - Grado académico: Doctorado, Maestría, Licenciatura
-//   - SNI: Niveles I, II, III y Candidatos
-//   - Idiomas: Inglés Avanzado, Intermedio y otros
-//   - TODO: Conectar con servicios reales para datos dinámicos
-//   - TODO: Implementar cálculos automáticos de porcentajes
-//   - Iconos representativos mediante emojis genéricos <----- **CAMBIAR POR ICONOS DE MEJOR ESTILO (TODOS LOS ARCHIVOS)**
-// ====================================================
-
 import { Component } from '@angular/core';
 import { SqlService } from '../../srv/docentes.service';
 
@@ -76,27 +55,25 @@ export class DocenteNumeralia {
     const fila = datos[0];
     if (!fila) return;
 
-    // 1) Guardas los valores numéricos
     this.totalDocentes = Number(fila.total_docentes) || 0;
     this.activos = Number(fila.activos) || 0;
     this.inactivos = Number(fila.inactivos) || 0;
     this.sniActivos = Number(fila.sni_activos) || 0;
 
-    // 2) Actualizas la cinta (stats) con esos valores
-    this.stats = [
-      { label: 'Total Docentes', value: this.totalDocentes, icon: '👥', color: 'text-primary' },
-      { label: 'Activos', value: this.activos, icon: '✅', color: 'text-success' },
-      { label: 'Inactivos', value: this.inactivos, icon: '❌', color: 'text-muted-foreground' },
-      { label: 'SNI Activos', value: this.sniActivos, icon: '🏆', color: 'text-accent' },
-    ];
+this.stats = [
+  { label: 'Total Docentes', value: this.totalDocentes, icon: 'fa-solid fa-users', color: 'text-primary' },
+  { label: 'Activos', value: this.activos, icon: 'fa-solid fa-check', color: '#2eb237' },
+  { label: 'Inactivos', value: this.inactivos, icon: 'fa-solid fa-xmark', color: 'text-muted-foreground' },
+  { label: 'SNI Activos', value: this.sniActivos, icon: 'fa-solid fa-award', color: 'text-accent' },
+];
+
     this.actualizarResumenEjecutivo();
   }
-  // ⬇ Stats iniciales en 0 
   stats = [
-    { label: 'Total Docentes', value: 0, icon: '👥', color: 'text-primary' },
-    { label: 'Activos', value: 0, icon: '✅', color: 'text-success' },
-    { label: 'Inactivos', value: 0, icon: '❌', color: 'text-muted-foreground' },
-    { label: 'SNI Activos', value: 0, icon: '🏆', color: 'text-accent' },
+    { label: 'Total Docentes', value: 0, icon: 'fa-solid fa-users', color: 'text-primary' },
+    { label: 'Activos', value: 0, icon: 'fa-solid fa-check', color: '#2eb237' },
+    { label: 'Inactivos', value: 0, icon: 'fa-solid fa-xmark', color: 'text-muted-foreground' },
+    { label: 'SNI Activos', value: 0, icon: 'fa-solid fa-award', color: 'text-accent' },
   ];
 
   async cargarGradoAcad() {
