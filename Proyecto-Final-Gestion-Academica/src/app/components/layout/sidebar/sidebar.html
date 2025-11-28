@@ -1,0 +1,61 @@
+<!-- ==================================================== -->
+<!-- ARCHIVO: sidebar.html -->
+<!-- DESCRIPCIÓN: Componente de barra lateral de navegación -->
+<!-- FUNCIONALIDAD: 
+    - Menú de navegación principal con items y submenús
+    - Navegación con Angular Router
+    - Estados activos y hover con estilos visuales
+    - Diseño jerárquico para items con submenús
+-->
+<!-- NOTAS:
+    - Sidebar fijo con altura calculada (sidebar-fixed class)
+    - Navegación mediante routerLink para SPA
+    - Estados visuales: activo, hover, normal
+    - Submenús con indentación y estilo diferenciado
+    - Transiciones suaves para hover effects
+    - Iconos representativos mediante emojis genéricos <----- **CAMBIAR POR ICONOS DE MEJOR ESTILO (TODOS LOS ARCHIVOS)**
+    - Colores del sistema de diseño sidebar (--sidebar-*)
+    - Manejo de hover states mediante variables de componente
+-->
+<!-- ==================================================== -->
+
+<aside class="w-64 bg-sidebar border-r border-sidebar-border sidebar-fixed">
+    <div class="p-4">
+        <nav style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <div *ngFor="let item of menuItems">
+                <a 
+                    [routerLink]="item.path"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg text-sidebar-foreground"
+                    [style]="'transition: all 0.2s; ' + 
+                            (isActive(item.path) ? 
+                            'background-color: hsl(var(--sidebar-accent)); color: hsl(var(--sidebar-accent-foreground)); font-weight: 500;' : 
+                            '')"
+                    (mouseenter)="hoveredItem = item.path"
+                    (mouseleave)="hoveredItem = null"
+                    [style.background-color]="!isActive(item.path) && hoveredItem === item.path ? 'hsl(var(--sidebar-accent))' : ''"
+                    [style.color]="!isActive(item.path) && hoveredItem === item.path ? 'hsl(var(--sidebar-accent-foreground))' : ''">
+                    <span style="font-size: 1.125rem">{{item.icon}}</span>
+                    <span>{{item.title}}</span>
+                </a>
+                
+                <div *ngIf="item.submenu" style="margin-left: 1rem; margin-top: 0.25rem; display: flex; flex-direction: column; gap: 0.25rem;">
+                    <a 
+                        *ngFor="let subitem of item.submenu"
+                        [routerLink]="subitem.path"
+                        class="flex items-center gap-3 px-4 py-2 rounded-lg text-sm text-sidebar-foreground"
+                        [style]="'transition: all 0.2s; opacity: 0.8; ' + 
+                                (isActive(subitem.path) ? 
+                                'background-color: hsl(var(--sidebar-accent), 0.5); color: hsl(var(--sidebar-accent-foreground)); font-weight: 500;' : 
+                                '')"
+                        (mouseenter)="hoveredSubitem = subitem.path"
+                        (mouseleave)="hoveredSubitem = null"
+                        [style.background-color]="!isActive(subitem.path) && hoveredSubitem === subitem.path ? 'hsl(var(--sidebar-accent), 0.5)' : ''"
+                        [style.color]="!isActive(subitem.path) && hoveredSubitem === subitem.path ? 'hsl(var(--sidebar-accent-foreground))' : ''">
+                        <span class="w-1.5 h-1.5 rounded-full" style="background-color: hsl(var(--sidebar-primary))"></span>
+                        <span>{{subitem.title}}</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+</aside>

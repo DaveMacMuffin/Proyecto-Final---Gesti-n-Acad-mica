@@ -1,0 +1,278 @@
+<div class="flex flex-col min-h-screen">
+    <app-navbar></app-navbar>
+    <div class="flex flex-1">
+        <app-sidebar></app-sidebar>
+        <main class="flex-1 p-6 bg-background">
+            
+            <div class="max-w-7xl mx-auto flex flex-col gap-6">
+
+                <div class="flex justify-end">
+                    <div class="flex items-center gap-2 bg-card p-2 rounded-lg shadow-sm border border-border">
+                        <span class="text-sm font-medium text-muted-foreground ml-2">Ver perfil de:</span>
+                        
+                        <select 
+                            (change)="cambiarDocente($event)" 
+                            [value]="docenteId"
+                            style="border: 1px solid hsl(var(--border)); padding: 0.5rem; border-radius: 0.375rem; min-width: 250px; background-color: hsl(var(--background)); outline: none;">
+                            
+                            <option value="0" disabled selected>Seleccionar a un profesor</option>
+
+                            <option *ngFor="let docente of listaDocentes" [value]="docente.id_docente">
+                                {{docente.nombre}}
+                            </option>
+
+                        </select>
+                    </div>
+                </div>
+
+                <div *ngIf="perfil; else loadingTemplate" class="flex flex-col gap-6">
+                    
+                    <div class="bg-card rounded-lg shadow-sm">
+                        <div class="p-6">
+                            <div class="flex items-start gap-6">
+                                <div class="rounded-full bg-primary flex items-center justify-center shrink-0" 
+                                    style="width: 200px; height: 200px">     
+                                    <span class="text-2xl text-primary-foreground font-bold">
+                                        {{perfil.cv.nombre.split(' ')[0][0]}}{{perfil.cv.nombre.split(' ')[1] ? perfil.cv.nombre.split(' ')[1][0] : ''}}
+                                    </span>
+                                </div>
+                                
+                                <div style="flex: 1;">
+                                    <div class="flex items-start justify-between">
+                                        <div>
+                                            <h1 class="text-3xl font-bold mb-2">{{perfil.cv.nombre}}</h1>
+                                            <p class="text-lg text-muted-foreground mb-4">
+                                                Profesor de {{perfil.cv.academia}} - {{perfil.cv.status}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex flex-wrap gap-2 mb-4">
+                                        <span class="bg-primary text-primary-foreground py-1 px-2 rounded text-sm">{{perfil.cv.sni}}</span>
+                                        <span class="bg-muted text-muted-foreground py-1 px-2 rounded text-sm">{{perfil.cv.grado}}</span>
+                                        <span *ngIf="perfil.cv.idioma" class="border border-border py-1 px-2 rounded text-sm">Idioma: {{perfil.cv.idioma}}</span>
+                                    </div>
+
+                                    <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;" class="md:grid-cols-3">
+                                        <div class="flex items-center gap-2 text-muted-foreground">
+                                            <span>📧</span>
+                                            <span>{{perfil.cv.correo}}</span>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-muted-foreground">
+                                            <span>📍</span>
+                                            <span>Academia de {{perfil.cv.academia}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 0; border-bottom: 1px solid hsl(var(--border));">
+                        <button 
+                            *ngFor="let tab of tabs" 
+                            (click)="setActiveTab(tab.id)"
+                            [class]="'tab-button ' + (activeTab === tab.id ? 'active' : '')">
+                            {{tab.label}}
+                        </button>
+                    </div>
+
+                    <div>
+                        <div *ngIf="activeTab === 'cv'">
+    <div class="bg-card rounded-lg shadow-sm p-8 border border-border">
+        
+        <div class="flex justify-between items-start border-b-2 border-primary pb-6 mb-6">
+            <div>
+                <h2 class="text-3xl font-bold text-foreground uppercase tracking-wide">{{perfil.cv.nombre}}</h2>
+                <p class="text-xl text-primary font-medium mt-1">Profesor Investigador - {{perfil.cv.academia}}</p>
+            </div>
+            <div class="text-right">
+                <span class="bg-primary text-primary-foreground px-4 py-2 rounded-full font-bold text-sm shadow-sm">
+                    {{perfil.cv.sni}}
+                </span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <div class="md:col-span-1 space-y-6">
+                
+                <div>
+                    <h3 class="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-3">Contacto</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center gap-2">
+                            <span>📧</span>
+                            <span class="font-medium break-all">{{perfil.cv.correo}}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span>📱</span>
+                            <span>(55) 1234-5678</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span>📍</span>
+                            <span>Campus Central, Edificio A</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-3">Idiomas</h3>
+                    <ul class="space-y-1 text-sm">
+                        <li class="flex items-center justify-between">
+                            <span>Español</span>
+                            <span class="text-muted-foreground text-xs">Nativo</span>
+                        </li>
+                        <li class="flex items-center justify-between">
+                            <span class="font-medium">{{perfil.cv.idioma || 'Inglés'}}</span>
+                            <span class="text-primary text-xs font-bold">Certificado</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-3">Detalles</h3>
+                    <div class="space-y-2 text-sm">
+                        <div>
+                            <span class="block text-xs text-muted-foreground">Fecha de Nacimiento</span>
+                            <span>14 de Mayo, 1980</span>
+                        </div>
+                        <div>
+                            <span class="block text-xs text-muted-foreground">Nacionalidad</span>
+                            <span>Mexicana</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="md:col-span-2 space-y-8 border-l border-border pl-0 md:pl-8">
+                
+                <section>
+                    <h3 class="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+                        <span class="p-1 bg-primary/10 rounded text-primary">🎓</span> Formación Académica
+                    </h3>
+                    <div class="space-y-4 relative border-l-2 border-muted ml-3 pl-6 pb-2">
+                        
+                        <div class="relative">
+                            <span class="absolute -left-[31px] top-1 h-4 w-4 rounded-full bg-primary border-4 border-background"></span>
+                            <h4 class="font-bold text-base">Doctorado en Ciencias de la Educación</h4>
+                            <p class="text-sm text-primary font-medium">Universidad Nacional Autónoma de México (UNAM)</p>
+                            <p class="text-xs text-muted-foreground mt-1">2010 - 2014</p>
+                        </div>
+
+                        <div class="relative">
+                            <span class="absolute -left-[31px] top-1 h-4 w-4 rounded-full bg-muted border-4 border-background"></span>
+                            <h4 class="font-bold text-base">Maestría en Pedagogía Avanzada</h4>
+                            <p class="text-sm text-muted-foreground">Tecnológico de Monterrey</p>
+                            <p class="text-xs text-muted-foreground mt-1">2007 - 2009</p>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+                        <span class="p-1 bg-primary/10 rounded text-primary">💼</span> Experiencia Profesional
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="bg-muted/30 p-4 rounded-lg">
+                            <h4 class="font-bold text-sm">Coordinador de Investigación Educativa</h4>
+                            <p class="text-xs text-muted-foreground mb-2">2015 - Presente</p>
+                            <p class="text-sm">Liderazgo en proyectos de innovación curricular y desarrollo de nuevas metodologías de enseñanza para el nivel superior.</p>
+                        </div>
+                        <div class="bg-muted/30 p-4 rounded-lg">
+                            <h4 class="font-bold text-sm">Docente Titular "A"</h4>
+                            <p class="text-xs text-muted-foreground mb-2">2009 - 2015</p>
+                            <p class="text-sm">Impartición de cátedra en niveles de licenciatura y posgrado, con enfoque en ciencias exactas y desarrollo lógico-matemático.</p>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+                        <div *ngIf="activeTab === 'clases'">
+                            <div class="bg-card rounded-lg shadow-sm">
+                                <div class="p-6 border-b border-border">
+                                    <h3 class="text-lg font-semibold">Historial de Asignaturas</h3>
+                                </div>
+                                <div class="p-6">
+                                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                        <div *ngFor="let clase of perfil.clases" class="flex items-center justify-between p-3 bg-muted rounded-lg">
+                                            <div>
+                                                <p class="font-medium">{{clase.materia}}</p>
+                                                <p class="text-sm text-muted-foreground">{{clase.periodo}}</p>
+                                            </div>
+                                            <span class="bg-primary text-primary-foreground py-1 px-2 rounded text-sm">
+                                                Promedio: {{clase.promedio}}
+                                            </span>
+                                        </div>
+                                        <p *ngIf="perfil.clases.length === 0" class="text-muted-foreground text-center">No hay clases registradas.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="activeTab === 'evaluacion'">
+                            <div class="bg-card rounded-lg shadow-sm">
+                                <div class="p-6 border-b border-border">
+                                    <h3 class="text-lg font-semibold flex items-center gap-2">
+                                        <span>⭐</span> Evaluación Docente
+                                    </h3>
+                                </div>
+                                <div class="p-6">
+                                    <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+                                        <div *ngFor="let eval of perfil.evaluacion" class="flex items-center justify-between p-3 bg-muted rounded-lg">
+                                            <span class="text-sm font-medium">{{eval.criterio}}</span>
+                                            <div class="flex items-center gap-2 w-1/2 justify-end">
+                                                <div class="h-2 bg-gray-200 rounded-full overflow-hidden w-32">
+                                                    <div class="h-full bg-primary" [style.width.%]="eval.calificacion * 10"></div> </div>
+                                                <span class="font-bold">{{eval.calificacion}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="activeTab === 'incidencias'">
+                            <div class="bg-card rounded-lg shadow-sm">
+                                <div class="p-6 border-b border-border">
+                                    <h3 class="text-lg font-semibold">Historial de Incidencias</h3>
+                                </div>
+                                <div class="p-6 flex flex-col gap-3">
+                                    
+                                    <div *ngFor="let ticket of perfil.incidencias" class="p-3 bg-muted rounded-lg border-l-4" 
+                                        [ngClass]="{'border-red-500': ticket.estado !== 'Resuelto', 'border-green-500': ticket.estado === 'Resuelto'}">
+                                        <div class="flex justify-between mb-1">
+                                            <p class="font-medium">{{ticket.tipo}}</p>
+                                            <span class="text-xs font-medium px-2 py-0.5 rounded" 
+                                                  [ngClass]="{'bg-red-100 text-red-700': ticket.estado !== 'Resuelto', 'bg-green-100 text-green-700': ticket.estado === 'Resuelto'}">
+                                                {{ticket.estado}}
+                                            </span>
+                                        </div>
+                                        <p class="text-sm text-muted-foreground mb-1">{{ticket.descripcion}}</p>
+                                        <p class="text-xs text-muted-foreground text-right">{{ticket.fecha | date:'shortDate'}}</p>
+                                    </div>
+
+                                    <p *ngIf="perfil.incidencias.length === 0" class="text-sm text-muted-foreground text-center py-8">
+                                        No hay incidencias registradas para este docente.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <ng-template #loadingTemplate>
+                    <div class="flex items-center justify-center h-64 text-muted-foreground">
+                        <p>Cargando información...</p>
+                    </div>
+                </ng-template>
+
+            </div>
+        </main>
+    </div>
+    <app-footer></app-footer>
+</div>

@@ -1,0 +1,134 @@
+<div class="flex flex-col min-h-screen">
+    <app-navbar></app-navbar>
+    <div class="flex flex-1">
+        <app-sidebar></app-sidebar>
+        <main class="flex-1 p-6 bg-background">
+            
+            <div class="dashboard-container">
+
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold text-foreground mb-2">Dashboard Dirección</h1>
+                        <p class="text-muted-foreground">KPIs ejecutivos y métricas estratégicas</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button (click)="exportarXLSX()" class="btn-export">
+                            <span>📊</span> CSV
+                        </button>
+                        <button (click)="exportarPDF()" class="btn-export">
+                            <span>📄</span> PDF
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <select (change)="cambiarFiltro($event)" class="filter-select">
+                        <option value="todo">Histórico Completo</option>
+                        <option value="mensual" selected>Mes Actual</option>
+                        <option value="semanal">Semana Actual</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div *ngFor="let kpi of kpis" class="kpi-card">
+                        <div class="flex items-center justify-between pb-2">
+                            <h3 class="text-sm font-medium text-muted-foreground">{{kpi.titulo}}</h3>
+                            <span class="kpi-icon-lg">{{kpi.icon}}</span>
+                        </div>
+                        <div class="flex items-baseline justify-between">
+                            <div class="text-3xl font-bold">{{kpi.valor}}</div>
+                            <span class="text-sm font-bold" [class]="kpi.color">{{kpi.tendencia}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h3 class="text-base font-semibold mb-3 flex items-center gap-2">
+                        <span>📋</span> Detalle de Tickets por Categoría
+                    </h3>
+                    
+                    <div class="category-scroll-container">
+                        <div *ngFor="let tipo of kpisTipos" class="category-card">
+                            <div class="flex items-start justify-between mb-2">
+                                <h4 class="font-medium text-xs leading-tight text-muted-foreground line-clamp-2" title="{{tipo.titulo}}">
+                                    {{tipo.titulo}}
+                                </h4>
+                                <span class="text-lg">{{tipo.icon}}</span>
+                            </div>
+                            <div class="text-xl font-bold mb-2">{{tipo.total}} <span class="text-[10px] font-normal text-muted-foreground">tickets</span></div>
+                            
+                            <div class="grid grid-cols-3 gap-1 text-center text-[10px] border-t border-border pt-2">
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-destructive">{{tipo.pendientes}}</span>
+                                    <span class="text-[9px] text-muted-foreground scale-90">Pend</span>
+                                </div>
+                                <div class="flex flex-col border-l border-r border-border">
+                                    <span class="font-bold text-primary">{{tipo.proceso}}</span>
+                                    <span class="text-[9px] text-muted-foreground scale-90">Proc</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-success">{{tipo.resueltos}}</span>
+                                    <span class="text-[9px] text-muted-foreground scale-90">Res</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-card rounded-lg shadow-sm mt-2 border border-border">
+                    <div class="p-6 border-b border-border">
+                        <h3 class="text-lg font-semibold flex items-center gap-2">
+                            <span>🗂️</span> Listado de Tickets ({{filtroActual | titlecase}})
+                        </h3>
+                    </div>
+                    <div class="p-0">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="text-xs text-muted-foreground uppercase bg-muted/50">
+                                    <tr>
+                                        <th class="px-6 py-3">Tipo</th>
+                                        <th class="px-6 py-3">Descripción</th>
+                                        <th class="px-6 py-3">Prioridad</th>
+                                        <th class="px-6 py-3">Estado</th>
+                                        <th class="px-6 py-3">Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let ticket of listaTickets" class="border-b border-border hover:bg-muted/50 transition-colors">
+                                        <td class="px-6 py-4 font-medium">{{ticket.tipo}}</td>
+                                        <td class="px-6 py-4 max-w-xs truncate" title="{{ticket.descripcion}}">{{ticket.descripcion}}</td>
+                                        
+                                        <td class="px-6 py-4">
+                                            <span class="badge" [ngClass]="{
+                                                'priority-alta': ticket.prioridad === 'Alta',
+                                                'priority-media': ticket.prioridad === 'Media',
+                                                'priority-baja': ticket.prioridad === 'Baja'
+                                            }">{{ticket.prioridad}}</span>
+                                        </td>
+                                        
+                                        <td class="px-6 py-4">
+                                            <span class="badge-status" [ngClass]="{
+                                                'status-resuelto': ticket.estado === 'Resuelto',
+                                                'status-proceso': ticket.estado === 'En Proceso',
+                                                'status-pendiente': ticket.estado === 'Pendiente'
+                                            }">{{ticket.estado}}</span>
+                                        </td>
+                                        
+                                        <td class="px-6 py-4 text-muted-foreground">{{ticket.fecha_creacion | date:'shortDate'}}</td>
+                                    </tr>
+                                    <tr *ngIf="listaTickets.length === 0">
+                                        <td colspan="5" class="px-6 py-8 text-center text-muted-foreground">
+                                            No se encontraron tickets en este periodo.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <app-footer></app-footer>
+</div>
