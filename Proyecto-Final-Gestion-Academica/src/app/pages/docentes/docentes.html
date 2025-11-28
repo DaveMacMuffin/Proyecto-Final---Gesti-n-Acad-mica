@@ -1,60 +1,37 @@
-<!-- ==================================================== -->
-<!-- ARCHIVO: docentes.html -->
-<!-- DESCRIPCIÓN: Página de gestión de base de datos docente -->
-<!-- FUNCIONALIDAD: 
-    - Lista completa de docentes con información detallada
-    - Búsqueda y filtrado de docentes
-    - Acciones de gestión (agregar, exportar, ver detalles)
-    - Visualización de estado y categorías SNI
-    - Tabla responsive con información organizada
--->
-<!-- NOTAS:
-    - Layout completo con navbar, sidebar y footer
-    - Header con título y botón de acción principal
-    - Barra de búsqueda y herramientas de filtrado
-    - Tabla personalizada con estilos CSS nativos
-    - Badges condicionales para SNI y Status
-    - Colores semánticos: primario para SNI, éxito para activos
-    - Diseño responsive con scroll horizontal en tablas pequeñas
-    - Acciones básicas: Ver Detalles (expandir funcionalidad)
-    - TODO: Implementar funcionalidad de búsqueda en tiempo real
-    - TODO: Implementar filtros avanzados por área/grado
-    - Iconos representativos mediante emojis genéricos <----- **CAMBIAR POR ICONOS DE MEJOR ESTILO (TODOS LOS ARCHIVOS)**
--->
-<!-- ==================================================== -->
-
 <div class="flex flex-col min-h-screen">
     <app-navbar></app-navbar>
     <div class="flex flex-1">
         <app-sidebar></app-sidebar>
         <main class="flex-1 p-6 bg-background">
-            <div style="max-width: 80rem; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem;">
+            <div class="docentes-wrapper">
 
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-3xl font-bold text-foreground mb-2">Tablero de Docentes</h1>
-                        <p class="text-muted-foreground">
+                        <h1 class="text-up-wine text-3xl font-bold text-foreground mb-2">Tablero de Docentes</h1>
+                        <p class="text-up-gold text-muted-foreground">
                             Gestión y visualización de la base de datos docente
                         </p>
                     </div>
                     <button data-toggle="modal" data-target="#modalAgregarDocente"
-                        class="bg-primary text-primary-foreground py-2 px-4 rounded flex items-center gap-2">
-                        <span><i class="fa-solid fa-plus"></i></span>
+                        class="btn-docente btn btn-secondary ">
+                        <i class="fa-solid fa-plus"></i>
                         Agregar Docente
                     </button>
                 </div>
 
                 <div class="flex gap-4">
-                    <div class="relative" style="flex: 1;">
-                        <input placeholder="Buscar docente por nombre, área, grado, SNI o status..."
-                            [(ngModel)]="terminoBusqueda" (input)="searchFilter()"
-                            style="padding-left: 2.5rem; width: 100%; border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 0.5rem;" />
-
+                    <div class="relative docentes-search-container">
+                        <input
+                            placeholder="Buscar docente por nombre, área, grado, SNI o status..."
+                            [(ngModel)]="terminoBusqueda"
+                            (input)="searchFilter()"
+                            class="docentes-search-input"
+                        />
                     </div>
                     <button class="border border-border py-2 px-4 rounded flex items-center gap-2"
                     (click)="exportarCSV()">
                         <span><i class="fa-solid fa-file-csv"></i></span>
-                        Exportar
+
                     </button>
                 </div>
 
@@ -63,56 +40,65 @@
                         <h3 class="text-lg font-semibold">Lista de Docentes</h3>
                     </div>
                     <div class="p-6">
-                        <table style="width: 100%; border-collapse: collapse;">
+                        <table class="docentes-table">
                             <thead>
-                                <tr style="border-bottom: 1px solid hsl(var(--border));">
-                                    <th style="text-align: left; padding: 0.75rem; font-weight: 500;">ID</th>
-                                    <th style="text-align: left; padding: 0.75rem; font-weight: 500;">Nombre</th>
-                                    <th style="text-align: left; padding: 0.75rem; font-weight: 500;">Área</th>
-                                    <th style="text-align: left; padding: 0.75rem; font-weight: 500;">Grado</th>
-                                    <th style="text-align: left; padding: 0.75rem; font-weight: 500;">Idioma</th>
-                                    <th style="text-align: left; padding: 0.75rem; font-weight: 500;">SNI</th>
-                                    <th style="text-align: left; padding: 0.75rem; font-weight: 500;">Status</th>
-                                    <th style="text-align: right; padding: 0.75rem; font-weight: 500;">Editar</th>
-                                    <th style="text-align: right; padding: 0.75rem; font-weight: 500;">Eliminar</th>
-
+                                <tr class="docentes-header-row">
+                                    <th class="docentes-th">ID</th>
+                                    <th class="docentes-th">Nombre</th>
+                                    <th class="docentes-th">Área</th>
+                                    <th class="docentes-th">Grado</th>
+                                    <th class="docentes-th">Idioma</th>
+                                    <th class="docentes-th">SNI</th>
+                                    <th class="docentes-th">Status</th>
+                                    <th class="docentes-th text-right">Editar</th>
+                                    <th class="docentes-th text-right">Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let docente of docentesFiltrados; let i = index"
-                                    style="border-bottom: 1px solid hsl(var(--border));">
-                                    <td style="padding: 0.75rem;">{{ i + 1 }}</td> <!-- Número de fila: 1,2,3... -->
-                                    <td style="padding: 0.75rem;">{{docente.nombre}}</td>
-                                    <td style="padding: 0.75rem;">{{docente.academia}}</td>
-                                    <td style="padding: 0.75rem;">{{docente.grado}}</td>
-                                    <td style="padding: 0.75rem;">{{ docente.idioma }}</td>
-                                    <td style="padding: 0.75rem;">
+                                <tr
+                                    *ngFor="let docente of docentesFiltrados; let i = index"
+                                    class="docentes-row"
+                                >
+                                    <td class="docentes-td">{{ i + 1 }}</td> <!-- Número de fila: 1,2,3... -->
+                                    <td class="docentes-td">{{docente.nombre}}</td>
+                                    <td class="docentes-td">{{docente.academia}}</td>
+                                    <td class="docentes-td">{{docente.grado}}</td>
+                                    <td class="docentes-td">{{ docente.idioma }}</td>
+                                    <td class="docentes-td">
                                         <span
-                                            [style]="'display: inline-block; padding: 0.25rem 0.5rem; border-radius: var(--radius); font-size: 0.75rem; ' + 
-                                            (docente.sni !== 'N/A' ? 'background-color: hsl(var(--primary)); color: hsl(var(--primary-foreground));' : 
-                                            'background-color: hsl(var(--muted)); color: hsl(var(--muted-foreground));')">
+                                            class="badge-base"
+                                            [ngClass]="docente.sni !== 'N/A'
+                                                ? 'badge-sni'
+                                                : 'badge-sni-na'"
+                                        >
                                             {{docente.sni}}
                                         </span>
                                     </td>
-                                    <td style="padding: 0.75rem;">
+                                    <td class="docentes-td">
                                         <span
-                                            [style]="'display: inline-block; padding: 0.25rem 0.5rem; border-radius: var(--radius); font-size: 0.75rem; ' + 
-                                            (docente.status === 'Activo' ? 'background-color: hsl(var(--success)); color: hsl(var(--success-foreground));' : 
-                                            'background-color: hsl(var(--muted)); color: hsl(var(--muted-foreground));')">
+                                            class="badge-base"
+                                            [ngClass]="docente.status === 'Activo'
+                                                ? 'badge-status-activo'
+                                                : 'badge-status-inactivo'"
+                                        >
                                             {{docente.status}}
                                         </span>
                                     </td>
-                                    <td style="padding: 0.75rem; text-align: right;">
-                                        <button data-toggle="modal" data-target="#modalEditarDocente"
+                                    <td class="docentes-td text-right">
+                                        <button
+                                            data-toggle="modal"
+                                            data-target="#modalEditarDocente"
                                             (click)="abrirModalEditar(docente)"
-                                            style="border: none; background: transparent; color: hsl(var(--primary)); font-size: 0.875rem;">
+                                            class="btn-inline-icon"
+                                        >
                                             <i class="fa-solid fa-pen-to-square"></i>
-
                                         </button>
                                     </td>
-                                    <td style="padding: 0.75rem; text-align: center;">
-                                        <button class="btn btn-danger" (click)="eliminarRegistro(i, docente)"
-                                            style="border: none; background: transparent; color: hsl(var(--primary)); font-size: 0.875rem;">
+                                    <td class="docentes-td text-center">
+                                        <button
+                                            class="btn btn-danger btn-inline-icon"
+                                            (click)="eliminarRegistro(i, docente)"
+                                        >
                                             <img src="\img\icons8-basura-24.png" alt="Eliminar">
                                         </button>
                                     </td>
@@ -189,7 +175,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" (click)="guardarDocente()"> Save changes</button>
+                    <button type="button" class="btn-docente btn btn-secondary" (click)="guardarDocente()"> Save changes</button>
                 </div>
             </div>
         </div>
@@ -258,7 +244,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" (click)="actualizarDocente()"> Save changes</button>
+                    <button type="button" class="btn-docente btn btn-secondary" (click)="actualizarDocente()"> Save changes</button>
                 </div>
             </div>
         </div>

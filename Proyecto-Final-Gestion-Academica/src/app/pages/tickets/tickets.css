@@ -1,0 +1,135 @@
+.tickets-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.icon-warning {
+    color: hsl(var(--warning));
+}
+
+.icon-info {
+    color: hsl(var(--info));
+}
+
+.icon-success {
+    color: hsl(var(--success));
+}
+
+.search-flex-1 {
+    flex: 1;
+}
+
+
+.tickets-search-input {
+    padding-left: 2.5rem;
+    width: 100%;
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    padding: 0.5rem;
+}
+
+
+.tickets-select-filter {
+    width: 12rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    padding: 0.5rem;
+}
+
+.tickets-list-scroll {
+    max-height: 500px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.tickets-row-main {
+    flex: 1;
+}
+
+.tickets-index {
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 0.875rem;
+}
+
+.tickets-info {
+    flex: 1;
+}
+
+.badge-prioridad-base {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius);
+    font-size: 0.75rem;
+}
+
+.badge-prioridad-alta {
+    background-color: hsl(var(--destructive));
+    color: hsl(var(--destructive-foreground));
+}
+
+.badge-prioridad-media {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+}
+
+.badge-prioridad-baja {
+    background-color: hsl(var(--muted));
+    color: hsl(var(--muted-foreground));
+}
+
+.badge-status-base {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius);
+    font-size: 0.75rem;
+    border: 1px solid;
+}
+
+
+.badge-status-pendiente {
+    background-color: hsl(var(--warning), 0.1);
+    color: hsl(var(--warning));
+    border-color: hsl(var(--warning), 0.2);
+}
+
+.badge-status-proceso {
+    background-color: hsl(var(--info), 0.1);
+    color: hsl(var(--info));
+    border-color: hsl(var(--info), 0.2);
+}
+
+.badge-status-resuelto {
+    background-color: hsl(var(--success), 0.1);
+    color: hsl(var(--success));
+    border-color: hsl(var(--success), 0.2);
+}
+
+
+.tickets-icon-button {
+    border: none;
+    background: transparent;
+    color: hsl(var(--primary));
+    font-size: 0.875rem;
+}
+
+.fa-check {
+    color: #2eb237;
+}
+
+.fa-triangle-exclamation {
+    color: #FFD43B;
+}
+
+.text_tickets {
+    font-size: xx-large;
+}
+
+.btn-ticket {
+    background-color: #7a1832 !important;
+    border-color: #7a1832 !important;
+    color: #c09b57 !important;
+}
