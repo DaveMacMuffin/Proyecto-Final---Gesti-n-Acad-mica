@@ -12,18 +12,19 @@ if ($conn->connect_error) {
 
 $query = $conn->prepare("
   INSERT INTO docentes (nombre, correo, academia, grado, idioma, sni, status)
-  VALUES (?, ?, ?, ?, '', ?, ?)
+  VALUES (?, ?, ?, ?, ?, ?, ?)
 ");
 
 $query->bind_param(
-  "ssssss",
-  $nombre, $correo, $academia, $grado, $sni, $status
+  "sssssss",
+  $nombre, $correo, $academia, $grado , $idioma, $sni, $status
 );
 
 $nombre   = $_POST["nombre"];
 $correo   = $_POST["correo"];
 $academia = $_POST["academia"];
 $grado    = $_POST["grado"];
+$idioma    = $_POST["idioma"];
 $sni      = $_POST["sni"];
 $status   = $_POST["status"];
 
