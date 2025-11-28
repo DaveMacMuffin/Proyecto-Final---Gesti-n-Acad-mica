@@ -30,9 +30,9 @@
                     <div class="bg-card rounded-lg shadow-sm">
                         <div class="p-6">
                             <div class="flex items-start gap-6">
-                                <div class="rounded-full bg-primary flex items-center justify-center shrink-0" 
+                                <div class="rounded-full bg-primary flex items-center justify-center shrink-0 color-1" 
                                     style="width: 200px; height: 200px">     
-                                    <span class="text-2xl text-primary-foreground font-bold">
+                                    <span class="text-2xl text-primary-foreground font-bold color-1">
                                         {{perfil.cv.nombre.split(' ')[0][0]}}{{perfil.cv.nombre.split(' ')[1] ? perfil.cv.nombre.split(' ')[1][0] : ''}}
                                     </span>
                                 </div>
@@ -48,18 +48,18 @@
                                     </div>
                                     
                                     <div class="flex flex-wrap gap-2 mb-4">
-                                        <span class="bg-primary text-primary-foreground py-1 px-2 rounded text-sm">{{perfil.cv.sni}}</span>
+                                        <span class="bg-primary text-primary-foreground py-1 px-2 rounded text-sm color-1">{{perfil.cv.sni}}</span>
                                         <span class="bg-muted text-muted-foreground py-1 px-2 rounded text-sm">{{perfil.cv.grado}}</span>
                                         <span *ngIf="perfil.cv.idioma" class="border border-border py-1 px-2 rounded text-sm">Idioma: {{perfil.cv.idioma}}</span>
                                     </div>
 
                                     <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;" class="md:grid-cols-3">
                                         <div class="flex items-center gap-2 text-muted-foreground">
-                                            <span>📧</span>
+                                            <span><i class="fa-solid fa-at"></i></span>
                                             <span>{{perfil.cv.correo}}</span>
                                         </div>
                                         <div class="flex items-center gap-2 text-muted-foreground">
-                                            <span>📍</span>
+                                            <span><i class="fa-solid fa-location-dot"></i></span>
                                             <span>Academia de {{perfil.cv.academia}}</span>
                                         </div>
                                     </div>
@@ -84,10 +84,10 @@
         <div class="flex justify-between items-start border-b-2 border-primary pb-6 mb-6">
             <div>
                 <h2 class="text-3xl font-bold text-foreground uppercase tracking-wide">{{perfil.cv.nombre}}</h2>
-                <p class="text-xl text-primary font-medium mt-1">Profesor Investigador - {{perfil.cv.academia}}</p>
+                <p class="text-xl text-primary font-medium mt-1 color-3">Profesor Investigador - {{perfil.cv.academia}}</p>
             </div>
             <div class="text-right">
-                <span class="bg-primary text-primary-foreground px-4 py-2 rounded-full font-bold text-sm shadow-sm">
+                <span class="bg-primary text-primary-foreground px-4 py-2 rounded-full font-bold text-sm shadow-sm color-1">
                     {{perfil.cv.sni}}
                 </span>
             </div>
@@ -101,15 +101,15 @@
                     <h3 class="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-3">Contacto</h3>
                     <div class="space-y-2 text-sm">
                         <div class="flex items-center gap-2">
-                            <span>📧</span>
+                            <span><i class="fa-solid fa-at"></i></span>
                             <span class="font-medium break-all">{{perfil.cv.correo}}</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <span>📱</span>
+                            <span><i class="fa-solid fa-phone"></i></span>
                             <span>(55) 1234-5678</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <span>📍</span>
+                            <span><i class="fa-solid fa-location-dot"></i></span>
                             <span>Campus Central, Edificio A</span>
                         </div>
                     </div>
@@ -124,7 +124,7 @@
                         </li>
                         <li class="flex items-center justify-between">
                             <span class="font-medium">{{perfil.cv.idioma || 'Inglés'}}</span>
-                            <span class="text-primary text-xs font-bold">Certificado</span>
+                            <span class="text-primary text-xs font-bold color-3">Certificado</span>
                         </li>
                     </ul>
                 </div>
@@ -149,14 +149,14 @@
                 
                 <section>
                     <h3 class="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-                        <span class="p-1 bg-primary/10 rounded text-primary">🎓</span> Formación Académica
+                        <span class="p-1 bg-primary/10 rounded text-primary"><i class="fa-solid fa-school-flag color-4"></i></span> Formación Académica
                     </h3>
                     <div class="space-y-4 relative border-l-2 border-muted ml-3 pl-6 pb-2">
                         
                         <div class="relative">
                             <span class="absolute -left-[31px] top-1 h-4 w-4 rounded-full bg-primary border-4 border-background"></span>
                             <h4 class="font-bold text-base">Doctorado en Ciencias de la Educación</h4>
-                            <p class="text-sm text-primary font-medium">Universidad Nacional Autónoma de México (UNAM)</p>
+                            <p class="text-sm text-primary font-medium color-3">Universidad Nacional Autónoma de México (UNAM)</p>
                             <p class="text-xs text-muted-foreground mt-1">2010 - 2014</p>
                         </div>
 
@@ -172,7 +172,7 @@
 
                 <section>
                     <h3 class="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-                        <span class="p-1 bg-primary/10 rounded text-primary">💼</span> Experiencia Profesional
+                        <span class="p-1 bg-primary/10 rounded text-primary"><i class="fa-solid fa-briefcase color-4"></i></span> Experiencia Profesional
                     </h3>
                     <div class="space-y-4">
                         <div class="bg-muted/30 p-4 rounded-lg">
@@ -205,7 +205,7 @@
                                                 <p class="font-medium">{{clase.materia}}</p>
                                                 <p class="text-sm text-muted-foreground">{{clase.periodo}}</p>
                                             </div>
-                                            <span class="bg-primary text-primary-foreground py-1 px-2 rounded text-sm">
+                                            <span class="bg-primary text-primary-foreground py-1 px-2 rounded text-sm color-1">
                                                 Promedio: {{clase.promedio}}
                                             </span>
                                         </div>

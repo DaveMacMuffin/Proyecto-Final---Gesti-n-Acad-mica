@@ -1,61 +1,48 @@
-<!-- ==================================================== -->
-<!-- ARCHIVO: navbar.html -->
-<!-- DESCRIPCIÓN: Componente de barra de navegación superior -->
-<!-- FUNCIONALIDAD: 
-    - Logo y título de la aplicación
-    - Notificaciones (campana con indicador)
-    - Menú de usuario con opción de logout
--->
-<!-- NOTAS:
-    - Navbar sticky que permanece al hacer scroll
-    - Diseño responsive (oculta username en móvil)
-    - Dropdown de usuario con funcionalidad básica
-    - Estilos con variables CSS del sistema de diseño
-    - Icono de notificaciones con badge de alerta
-    - Logout con estilo destructivo/rojo
-    - Iconos representativos mediante emojis genéricos <----- **CAMBIAR POR ICONOS DE MEJOR ESTILO (TODOS LOS ARCHIVOS)**
--->
-<!-- ==================================================== -->
-
-<nav class="bg-card border-b border-border sticky top-0 z-40 shadow-sm">
-    <div class="px-6 py-4">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-                        <span class="text-primary-foreground font-bold text-xl">SA</span>
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-bold text-foreground">Secretaría Académica</h1>
-                        <p class="text-xs text-muted-foreground">Sistema de Gestión Modular</p>
-                    </div>
-                </div>
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+    <div class="container-fluid px-4">
+        
+        <a class="navbar-brand d-flex align-items-center gap-3" href="">
+            <div class="d-flex align-items-center justify-content-center rounded text-white">
+                <a class="navbar-brand" href="">
+                    <img src="\img\logo-UP.png" alt="Logo" width="280" height="75">
+                </a>
             </div>
+            <div class="d-flex flex-column" style="line-height: 1.2;">
+                <span class="fw-bold fs-5 text-body-emphasis font-1">Secretaría de Gestion Académica</span>
+                <!-- <span class="small text-body-secondary font-1" style="font-size: 0.75rem;">Sistema de Gestión Modular</span> -->
+            </div>
+        </a>
 
-            <div class="flex items-center gap-3">
-                <button class="p-2 rounded relative" style="border: none; background: transparent;">
-                    <span class="absolute top-1 right-1 w-2 h-2 bg-accent rounded-full"></span>
-                </button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                <div class="relative">
-                    <button class="flex items-center gap-2 p-2 rounded" style="border: none; background: transparent;">
-                        <span style="font-size: 1.125rem;">👤</span>
-                        <span class="hidden md:inline">{{user.username}}</span>
-                    </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-2">
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+                        <span style="font-size: 1.25rem;"><i class="fa-solid fa-user justify-content-left"></i> </span>
+                        <span class="d-none d-lg-inline font-2">{{user.username}}</span>
+                    </a>
                     
-                    <!-- Dropdown menu básico -->
-                    <div class="absolute right-0 mt-2 w-48 bg-card rounded-md shadow-lg border border-border hidden">
-                        <div class="p-3 border-b border-border">
-                            <p class="font-medium">{{user.username}}</p>
-                            <p class="text-xs text-muted-foreground capitalize">{{user.role}}</p>
-                        </div>
-                        <button (click)="handleLogout()" class="w-full text-left p-3 cursor-pointer" 
-                                style="color: hsl(var(--destructive)); border: none; background: transparent;">
-                            Cerrar Sesión
-                        </button>
-                    </div>
-                </div>
-            </div>
+                    <ul class="dropdown-menu shadow">
+                        <li>
+                            <h6 class="dropdown-header">
+                                <div class="fw-bold text-body">{{user.username}}</div>
+                                <div class="small text-muted text-capitalize">{{user.role}}</div>
+                            </h6>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <button class="dropdown-item text-danger" onclick="handleLogout()">
+                                Cerrar Sesión
+                            </button>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
         </div>
     </div>
 </nav>

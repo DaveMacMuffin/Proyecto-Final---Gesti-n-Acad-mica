@@ -1,14 +1,3 @@
-// ====================================================
-// ARCHIVO: footer.ts
-// DESCRIPCIÓN: Componente TypeScript del Footer
-// FUNCIONALIDAD: 
-//   - Provee el año actual dinámicamente
-//   - Maneja estados hover para enlaces (opcional)
-// NOTAS:
-//   - currentYear se actualiza automáticamente cada año
-//   - hoveredLink permite futuras mejoras de interactividad
-// ====================================================
-
 import { Component } from '@angular/core';
 
 @Component({

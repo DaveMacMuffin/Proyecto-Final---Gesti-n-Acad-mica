@@ -1,23 +1,3 @@
-// ====================================================
-// ARCHIVO: app-module.ts
-// DESCRIPCIÓN: Módulo principal de la aplicación Angular
-// FUNCIONALIDAD: 
-//   - Configuración central de la aplicación
-//   - Declaración de todos los componentes
-//   - Importación de módulos necesarios
-//   - Configuración de proveedores de servicios
-//   - Bootstrap de la aplicación
-// NOTAS:
-//   - Módulo raíz de la aplicación (AppModule)
-//   - Declara todos los componentes de páginas y layout
-//   - Importa módulos esenciales: BrowserModule, AppRoutingModule, FormsModule
-//   - Configura ErrorHandler para manejo global de errores
-//   - Bootstrap del componente principal: App
-//   - Estructura organizada por páginas y componentes de layout)
-//   - TODO: Agregar módulos adicionales según necesidades 
-//   - TODO: Implementar interceptors para autenticación y logging (opcional)
-//   - TODO: Considerar separación en módulos funcionales (según escala de la app)
-// ====================================================
 
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';

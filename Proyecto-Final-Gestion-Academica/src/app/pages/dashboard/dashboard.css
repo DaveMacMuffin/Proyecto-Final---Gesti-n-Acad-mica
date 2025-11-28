@@ -1,0 +1,12 @@
+:root {
+    --upRed: #7a1832;
+    --upgold: #c09b57;
+}
+
+.font-1 {
+    color: var(--upRed) !important;
+}
+
+.font-2 {
+    color: var(--upgold) !important;
+}

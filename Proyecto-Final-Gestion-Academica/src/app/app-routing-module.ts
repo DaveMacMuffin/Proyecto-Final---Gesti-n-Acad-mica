@@ -1,21 +1,3 @@
-// ====================================================
-// ARCHIVO: app-routing-module.ts
-// DESCRIPCIÓN: Módulo de configuración de rutas de la aplicación
-// FUNCIONALIDAD: 
-//   - Define todas las rutas de la aplicación
-//   - Configura la navegación entre componentes
-//   - Maneja rutas no encontradas (404)
-//   - Proporciona el sistema de routing a toda la app
-// NOTAS:
-//   - Configuración centralizada de todas las rutas
-//   - Ruta raíz ('') mapea al componente Index
-//   - Ruta comodín ('**') maneja páginas no encontradas
-//   - Orden de rutas: específicas primero, comodín al final
-//   - Importa y declara todos los componentes de página
-//   - Usa RouterModule.forRoot() para rutas principales
-//   - Exporta RouterModule para uso en toda la aplicación
-//   - TODO: Considerar rutas con parámetros dinámicos
-// ====================================================
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';

@@ -1,29 +1,10 @@
-/* ==================================================== */
-/* ARCHIVO: styles.css */
-/* DESCRIPCIÓN: Sistema de diseño y estilos globales de la aplicación */
-/* FUNCIONALIDAD: 
-  - Define el sistema de diseño completo con variables CSS
-  - Proporciona estilos base y utilidades globales
-  - Implementa el tema institucional académico
-  - Maneja responsive design y layouts
-  - Define componentes reutilizables y utilidades
-*/
-/* NOTAS:
-  - Sistema de diseño basado en variables CSS (HSL)
-  - Tema institucional: azul académico, dorado de acento
-  - Diseño responsive con breakpoints móvil/tablet/desktop
-  - Variables organizadas por categorías: colores, sombras, espaciados
-  - Utilidades para flexbox, grid, espaciado, tipografía
-  - Componentes específicos: progress bars, sidebar, tabs
-  - TODO: Agregar más componentes reutilizables (opcional)
-  - TODO: Considerar separación en módulos CSS (opcional)
-*/
-/* ==================================================== */
 
-
-/* Design System - Academic Institutional Theme */
 :root {
-    /* Colors - HSL format */
+
+    --upRed: #7a1832;
+    --upgold: #c09b57;
+
+    /* Colores en HSL??? */
     --background: 220 18% 97%;
     --foreground: 220 40% 15%;
     
@@ -84,13 +65,14 @@ body {
     padding: 0;
 }
 
-/* Utility classes */
+
 .bg-background { background-color: hsl(var(--background)); }
 .bg-card { background-color: hsl(var(--card)); }
 .bg-primary { background-color: hsl(var(--primary)); }
 .bg-accent { background-color: hsl(var(--accent)); }
 .bg-muted { background-color: hsl(var(--muted)); }
-.bg-sidebar { background-color: hsl(var(--sidebar-background)); }
+
+.bg-sidebar { background-color: var(--upRed); }
 
 .text-foreground { color: hsl(var(--foreground)); }
 .text-card-foreground { color: hsl(var(--card-foreground)); }
@@ -110,14 +92,14 @@ body {
 .rounded { border-radius: var(--radius); }
 .rounded-lg { border-radius: calc(var(--radius) * 2); }
 
-/* Flex utilities */
+
 .flex { display: flex; }
 .flex-col { flex-direction: column; }
 .items-center { align-items: center; }
 .justify-center { justify-content: center; }
 .justify-between { justify-content: space-between; }
 
-/* Spacing */
+
 .p-4 { padding: 1rem; }
 .p-6 { padding: 1.5rem; }
 .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
@@ -127,13 +109,12 @@ body {
 .mb-8 { margin-bottom: 2rem; }
 .mt-6 { margin-top: 1.5rem; }
 
-/* Sizing */
+
 .w-full { width: 100%; }
 .w-64 { width: 16rem; }
 .max-w-md { max-width: 28rem; }
 .min-h-screen { min-height: 100vh; }
 
-/* Text */
 .text-xs { font-size: 0.75rem; }
 .text-sm { font-size: 0.875rem; }
 .text-lg { font-size: 1.125rem; }
@@ -147,12 +128,12 @@ body {
 
 .text-center { text-align: center; }
 
-/* Grid */
+
 .grid { display: grid; }
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .gap-4 { gap: 1rem; }
 
-/* Responsive */
+
 @media (min-width: 768px) {
     .md\:flex-row { flex-direction: row; }
     .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -164,7 +145,7 @@ body {
     .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-/* Layout fixes */
+
 .flex-1 {
   flex: 1;
 }
@@ -173,13 +154,11 @@ body {
   min-height: 100vh;
 }
 
-/* Main content area */
 main {
   width: 100%;
   overflow-x: auto;
 }
 
-/* Grid improvements */
 .grid {
   display: grid;
 }
@@ -213,19 +192,19 @@ main {
   }
 }
 
-/* Table improvements */
+
 table {
   width: 100%;
-  min-width: 800px; /* Force horizontal scroll on small screens */
+  min-width: 800px; 
 }
 
-/* Ensure content uses full width */
+
 .max-w-7xl {
   max-width: 80rem;
   width: 100%;
 }
 
-/* Fix footer and layout */
+
 .flex-col {
   display: flex;
   flex-direction: column;
@@ -235,17 +214,17 @@ table {
   min-height: 100vh;
 }
 
-/* Main content area with scroll */
+
 main {
   flex: 1;
 }
 
-/* Ensure footer stays at bottom */
+
 app-footer {
   margin-top: auto;
 }
 
-/* Tab content with limited height */
+
 .tab-content-container {
   max-height: 400px;
   overflow-y: auto;
@@ -266,10 +245,10 @@ app-footer {
   transition: width 0.3s ease;
 }
 
-/* Sidebar con altura ajustable */
+
 .sidebar-fixed {
-  height: calc(100vh - 73px); /* viewport - navbar height */
+  height: calc(100vh); 
   overflow-y: auto;
   position: sticky;
-  top: 73px; /* navbar height */
+  top: 0px; 
 }

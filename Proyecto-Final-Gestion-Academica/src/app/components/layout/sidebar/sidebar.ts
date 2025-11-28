@@ -1,17 +1,4 @@
-// ====================================================
-// ARCHIVO: sidebar.ts
-// DESCRIPCIÓN: Componente TypeScript de la barra lateral
-// FUNCIONALIDAD: 
-//   - Define la estructura del menú de navegación
-//   - Maneja estados hover para items y subitems
-//   - Controla la detección de ruta activa
-//   - Provee datos de navegación al template
-// NOTAS:
-//   - Interface MenuItem para tipado fuerte de la estructura del menú
-//   - Navegación jerárquica con items y submenús
-//   - Estados hover manejados con variables reactivas
-//   - isActive() básico
-// ====================================================
+
 
 import { Component } from '@angular/core';
 
@@ -32,7 +19,7 @@ export class Sidebar {
   hoveredItem: string | null = null;
   hoveredSubitem: string | null = null;
   menuItems: MenuItem[] = [
-    { title: 'Dashboard', icon: '📊', path: '/dashboard' },
+    { title: 'Pagina Principal', icon: '📄', path: '/dashboard' },
     {
       title: 'BD Docente', 
       icon: '👥',

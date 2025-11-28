@@ -1,20 +1,3 @@
-// ====================================================
-// ARCHIVO: dashboard.ts
-// DESCRIPCIÓN: Componente TypeScript del Dashboard principal
-// FUNCIONALIDAD: 
-//   - Provee datos para las estadísticas del sistema
-//   - Maneja la lista de actividades recientes
-//   - Controla las tareas pendientes del sistema
-//   - Define la estructura de datos para el template
-// NOTAS:
-//   - Interface Stat para tipado fuerte de estadísticas
-//   - Datos mock/estáticos para demostración
-//   - Stats con tendencias positivas/negativas y colores
-//   - Activities con tipos categorizados (warning, success, info)
-//   - Tasks con niveles de prioridad (Alta, Media, Baja)
-//   - Iconos representativos mediante emojis genéricos <----- **CAMBIAR POR ICONOS DE MEJOR ESTILO (TODOS LOS ARCHIVOS)**
-//   - TODO: Conectar con servicios reales para datos dinámicos
-// ====================================================
 
 import { Component } from '@angular/core';
 
