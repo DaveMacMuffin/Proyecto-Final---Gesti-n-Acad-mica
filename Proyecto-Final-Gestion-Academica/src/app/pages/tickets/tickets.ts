@@ -1,26 +1,3 @@
-// ====================================================
-// ARCHIVO: tickets.ts
-// DESCRIPCIÓN: Componente TypeScript del sistema de tickets
-// FUNCIONALIDAD: 
-//   - Provee datos de tickets e incidencias del sistema
-//   - Maneja la estructura de información de tickets
-//   - Controla los estados y prioridades de los tickets
-//   - Gestiona la lista completa de solicitudes y reportes
-// NOTAS:
-//   - Datos mock/estáticos para demostración
-//   - Tickets con ID único, tipo, profesor, fecha, prioridad y status
-//   - Tipos de tickets: Cambio calificación, fecha examen, integridad, etc.
-//   - Prioridades: Alta, Media, Baja (con colores condicionales)
-//   - Estados: Pendiente, En Proceso, Resuelto
-//   - Fechas en formato YYYY-MM-DD para ordenamiento
-//   - Profesores con títulos académicos (Dr., Dra., Mtro.)
-//   - TODO: Conectar con servicio real de gestión de tickets
-//   - TODO: Implementar CRUD completo para tickets 
-//   - TODO: Agregar filtrado y búsqueda en tiempo real
-//   - TODO: Implementar sistema de notificaciones para cambios
-//   - TODO: Implementar asignación de tickets a usuarios
-// ====================================================
-
 import { Component } from '@angular/core';
 import { SqlService } from '../../srv/docentes.service';
 
@@ -53,7 +30,7 @@ export class Tickets {
     fecha_cierre: '',
   };
 
-  constructor(private sql: SqlService) { }   // MISMO servicio que en docentes.ts
+  constructor(private sql: SqlService) { }   
 
   async ngOnInit() {
     this.listaDocentes = await this.sql.conectarAPI();
@@ -84,24 +61,24 @@ export class Tickets {
 
   }
   async cargarTickets() {
-    this.tickets = await this.sql.conectarAPI2();  // tu función que hace el $.ajax GET
+    this.tickets = await this.sql.conectarAPI2();  
     console.log("Devuelve api2:", this.tickets)
-    this.ticketsFiltrados = [...this.tickets]; //copia de docentes para que al inicio la tabla muestre todo
+    this.ticketsFiltrados = [...this.tickets];  
   }
 
   searchFilterTicket() {
-    // Pasamos lo que escribió el usuario a minúsculas y sin espacios extra
+     
     const term = this.terminoBusqueda.toLowerCase().trim();
 
-    // Si no hay nada escrito → mostrar todos
+     
     if (!term) {
       this.ticketsFiltrados = [...this.tickets];
       return;
     }
 
-    // Si hay texto, filtramos
+     
     this.ticketsFiltrados = this.tickets.filter((t: any) => {
-      // Sacamos cada campo y lo pasamos a string minúscula
+       
       const id = (t.id + '').toLowerCase();
       const tipo = (t.tipo + '').toLowerCase();
       const profesor = (t.profesor || '').toLowerCase();
@@ -122,7 +99,7 @@ export class Tickets {
 
     let resultado = this.tickets;
 
-    // 1) Filtro por categoría
+    
     if (this.categoriaSeleccionada !== 'Todas las categorías') {
       resultado = resultado.filter((t: any) =>
         t.tipo === this.categoriaSeleccionada
@@ -135,8 +112,8 @@ export class Tickets {
   aplicarFiltrosFecha() {
     let resultado = [...this.ticketsFiltrados];
 
-    // 2) Ordenamiento
-    if (this.ordenSeleccionado === 'Reciente') //Descendente
+     
+    if (this.ordenSeleccionado === 'Reciente')  
     {
       resultado.sort((a: any, b: any) => {
         if (a.fecha < b.fecha) {
@@ -147,7 +124,7 @@ export class Tickets {
         }
       });
     }
-    else if (this.ordenSeleccionado === 'Antiguo')//ascendente
+    else if (this.ordenSeleccionado === 'Antiguo') 
     {
       resultado.sort((a: any, b: any) => {
         if (a.fecha > b.fecha) {
@@ -217,7 +194,7 @@ export class Tickets {
 
   async eliminarRegistro(index: number, ticket: any) {
     if (!confirm("¿Estás seguro de eliminar el ticket de " + ticket.tipo + "?")) {
-      return; // Si dice cancelar, no hacemos nada
+      return;  
     }
     if (ticket.status == "Resuelto") {
       await this.sql.eliminarTicketBD(ticket.id);
