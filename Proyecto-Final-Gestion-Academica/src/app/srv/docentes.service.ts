@@ -239,6 +239,83 @@ async getListaDocentes() {
         });
     });
 }
+  editarDocente(editdocente:any){
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: 'http://localhost/web/Proyecto-Final-Gestion-Academica/public/api/edit_docente.php',
+      data: editdocente,
+      method: 'POST',
+      success: (response:any) => {
+        console.log("Edit PHP:", response);
+        alert("Docente editado correctamente");
+        resolve(response);           
+      },
+      error: (err:any) => {
+        console.error("ERROR desde PHP:", err);
+        reject(err);                 
+      }
+    });
+  });
+}
+eliminarDocenteBD(id: any){
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: 'http://localhost/web/Proyecto-Final-Gestion-Academica/public/api/delete_docente.php',
+      data: { id_docente: id },
+      method: 'POST',
+      success: (response:any) => {
+        console.log("Edit PHP:", response);
+        alert("Docente eliminado correctamente");
+        resolve(response);           
+      },
+      error: (err:any) => {
+        console.error("ERROR desde PHP:", err);
+        reject(err);                 
+      }
+    });
+  });
+}
+
+editarTicketEstado(ticket: any) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: 'http://localhost/web/Proyecto-Final-Gestion-Academica/public/api/edit_ticket.php',
+      type: 'POST',
+      data: {
+        id_ticket: ticket.id_ticket,
+        estado: ticket.status
+      },
+      success: (response: any) => {
+        console.log("Edit ticket:", response);
+        resolve(response);
+      },
+      error: (err: any) => {
+        console.error("Error edit ticket:", err);
+        reject(err);
+      }
+    });
+  });
+}
+
+
+eliminarTicketBD(id: any){
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: 'http://localhost/web/Proyecto-Final-Gestion-Academica/public/api/delete_ticket.php',
+      data: { id_ticket: id },
+      method: 'POST',
+      success: (response:any) => {
+        console.log("Edit PHP:", response);
+        alert("Ticket eliminado correctamente");
+        resolve(response);           
+      },
+      error: (err:any) => {
+        console.error("ERROR desde PHP:", err);
+        reject(err);                 
+      }
+    });
+  });
+}
 }
 
 
