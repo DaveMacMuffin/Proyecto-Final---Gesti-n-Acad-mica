@@ -1,39 +1,10 @@
-<!-- ==================================================== -->
-<!-- ARCHIVO: tickets.html -->
-<!-- DESCRIPCIÓN: Sistema de gestión de tickets e incidencias -->
-<!-- FUNCIONALIDAD: 
-    - Dashboard de métricas de tickets (pendientes, en proceso, resueltos)
-    - Búsqueda y filtrado avanzado de tickets
-    - Lista completa de tickets con información detallada
-    - Gestión visual de prioridades y estados
-    - Acciones rápidas para cada ticket
--->
-<!-- NOTAS:
-    - Layout completo con navbar, sidebar y footer
-    - Header con título y botón de creación de nuevo ticket
-    - Cards de métricas con iconos color-coded por estado
-    - Barra de búsqueda con filtros por categoría y ordenamiento
-    - Lista de tickets con scroll interno para grandes volúmenes
-    - Badges condicionales para prioridad (Alta, Media, Baja) y estado
-    - Colores semánticos: destructivo para alta, primario para media, muted para baja
-    - Estados: Pendiente (warning), En Proceso (info), Resuelto (success)
-    - Diseño responsive con grid adaptativo
-    - TODO: Implementar funcionalidad real de búsqueda y filtrado
-    - TODO: Implementar creación y edición de tickets
-    - TODO: Agregar sistema de notificaciones para tickets
-    - Iconos representativos mediante emojis <----- **CAMBIAR POR ICONOS DE MEJOR ESTILO (TODOS LOS ARCHIVOS)**
--->
-<!-- ==================================================== -->
-
-
 <div class="flex flex-col min-h-screen">
     <app-navbar></app-navbar>
     <div class="flex flex-1">
         <app-sidebar></app-sidebar>
         <main class="flex-1 p-6 bg-background">
-            <div class="max-w-7xl mx-auto" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div class="max-w-7xl mx-auto tickets-wrapper">
 
-                <!-- Header -->
                 <div class="flex items-center justify-between">
                     <div>
                         <h1 class="text-3xl font-bold text-foreground mb-2">Tickets & Incidencias</h1>
@@ -42,8 +13,8 @@
                         </p>
                     </div>
                     <button data-toggle="modal" data-target="#modalAgregarTicket"
-                        class="bg-primary text-primary-foreground py-2 px-4 rounded flex items-center gap-2">
-                        <span>➕</span>
+                        class="btn-ticket btn btn-secondary">
+                        <i class="fa-solid fa-plus"></i>
                         Nuevo Ticket
                     </button>
                 </div>
@@ -52,38 +23,45 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="bg-card rounded-lg shadow-sm p-4">
                         <div class="flex items-center justify-between pb-2">
-                            <h3 class="text-sm font-medium text-muted-foreground">Pendientes</h3>
-                            <span style="color: hsl(var(--warning));">⏰</span>
+                            <h3 class="text_tickets text-sm font-medium text-muted-foreground">Pendientes</h3>
+                            <i class="fa-solid fa-triangle-exclamation fa-5x"></i>
+
                         </div>
                         <div class="text-3xl font-bold">{{tot_pendientes}}</div>
                     </div>
 
                     <div class="bg-card rounded-lg shadow-sm p-4">
                         <div class="flex items-center justify-between pb-2">
-                            <h3 class="text-sm font-medium text-muted-foreground">En Proceso</h3>
-                            <span style="color: hsl(var(--info));">⚠️</span>
+                            <h3 class="text_tickets text-sm font-medium text-muted-foreground">En Proceso</h3>
+                            <i class="fa-solid fa-spinner fa-5x"></i>                            
                         </div>
                         <div class="text-3xl font-bold">{{tot_proceso}}</div>
                     </div>
 
                     <div class="bg-card rounded-lg shadow-sm p-4">
                         <div class="flex items-center justify-between pb-2">
-                            <h3 class="text-sm font-medium text-muted-foreground">Resueltos (Mes)</h3>
-                            <span style="color: hsl(var(--success));">✅</span>
+                            <h3 class="text_tickets text-sm font-medium text-muted-foreground">Resueltos</h3>
+                            <i class="fa-solid fa-check fa-5x" ></i>
                         </div>
                         <div class="text-3xl font-bold">{{tot_resueltos}}</div>
                     </div>
                 </div>
 
                 <div class="flex gap-4">
-                    <div class="relative" style="flex: 1;">
-                        <input placeholder="Buscar por profesor, categoría, prioridad o estado..." [(ngModel)]="terminoBusqueda"
+                    <div class="relative search-flex-1">
+                        <input
+                            placeholder="Buscar por profesor, categoría, prioridad o estado..."
+                            [(ngModel)]="terminoBusqueda"
                             (input)="searchFilterTicket()"
-                            style="padding-left: 2.5rem; width: 100%; border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 0.5rem;" />
+                            class="tickets-search-input"
+                        />
                     </div>
 
-                    <select [(ngModel)]="categoriaSeleccionada" (change)="aplicarFiltrosTipo()"
-                        style="width: 12rem; border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 0.5rem;">
+                    <select
+                        [(ngModel)]="categoriaSeleccionada"
+                        (change)="aplicarFiltrosTipo()"
+                        class="tickets-select-filter"
+                    >
                         <option value="Todas las categorías">Todas las categorías</option>
                         <option value="Cambio de calificación">Cambio Calificación</option>
                         <option value="Cambio de fecha de examen">Cambio Fecha Examen</option>
@@ -92,62 +70,78 @@
                         <option value="Incidencia de pago">Incidencia de Pago</option>
                     </select>
 
-                    <select [(ngModel)]="ordenSeleccionado" (change)="aplicarFiltrosFecha()"
-                        style="width: 12rem; border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 0.5rem;">
+                    <select
+                        [(ngModel)]="ordenSeleccionado"
+                        (change)="aplicarFiltrosFecha()"
+                        class="tickets-select-filter"
+                    >
                         <option value="Reciente">Más reciente</option>
                         <option value="Antiguo">Más antiguo</option>
                         <option value="Prioridad">Por prioridad</option>
                     </select>
                 </div>
 
-                <!-- Tickets List -->
                 <div class="bg-card rounded-lg shadow-sm">
                     <div class="p-6 border-b border-border">
                         <h3 class="text-lg font-semibold">Lista de Tickets</h3>
                     </div>
                     <div class="p-6">
-                        <div
-                            style="max-height: 500px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div class="tickets-list-scroll">
                             <div *ngFor="let ticket of ticketsFiltrados let i = index"
                                 class="flex items-center justify-between p-4 border border-border rounded-lg">
-                                <div class="flex items-center gap-4" style="flex: 1;">
+                                <div class="flex items-center gap-4 tickets-row-main">
                                     <div class="flex flex-col">
-                                        <span
-                                            style="font-family: monospace; font-weight: bold; font-size: 0.875rem;">{{i + 1}}</span>
+                                        <span class="tickets-index">{{i + 1}}</span>
                                         <span class="text-xs text-muted-foreground">{{ticket.fecha}}</span>
                                     </div>
 
-                                    <div style="flex: 1;">
+                                    <div class="tickets-info">
                                         <p class="font-semibold">{{ticket.tipo}}</p>
                                         <p class="text-sm text-muted-foreground">{{ticket.profesor}}</p>
                                     </div>
 
                                     <div class="flex items-center gap-2">
                                         <span
-                                            [style]="'display: inline-block; padding: 0.25rem 0.5rem; border-radius: var(--radius); font-size: 0.75rem; ' + 
-                                            (ticket.prioridad === 'Alta' ? 'background-color: hsl(var(--destructive)); color: hsl(var(--destructive-foreground));' :
-                                            ticket.prioridad === 'Media' ? 'background-color: hsl(var(--primary)); color: hsl(var(--primary-foreground));' :
-                                            'background-color: hsl(var(--muted)); color: hsl(var(--muted-foreground));')">
+                                            class="badge-prioridad-base"
+                                            [ngClass]="
+                                                ticket.prioridad === 'Alta'
+                                                    ? 'badge-prioridad-alta'
+                                                    : ticket.prioridad === 'Media'
+                                                        ? 'badge-prioridad-media'
+                                                        : 'badge-prioridad-baja'
+                                            "
+                                        >
                                             {{ticket.prioridad}}
                                         </span>
                                         <span
-                                            [style]="'display: inline-block; padding: 0.25rem 0.5rem; border-radius: var(--radius); font-size: 0.75rem; border: 1px solid; ' + 
-                                            (ticket.status === 'Pendiente' ? 'background-color: hsl(var(--warning), 0.1); color: hsl(var(--warning)); border-color: hsl(var(--warning), 0.2);' :
-                                            ticket.status === 'En Proceso' ? 'background-color: hsl(var(--info), 0.1); color: hsl(var(--info)); border-color: hsl(var(--info), 0.2);' :
-                                            'background-color: hsl(var(--success), 0.1); color: hsl(var(--success)); border-color: hsl(var(--success), 0.2);')">
+                                            class="badge-status-base"
+                                            [ngClass]="
+                                                ticket.status === 'Pendiente'
+                                                    ? 'badge-status-pendiente'
+                                                    : ticket.status === 'En Proceso'
+                                                        ? 'badge-status-proceso'
+                                                        : 'badge-status-resuelto'
+                                            "
+                                        >
                                             {{ticket.status}}
                                         </span>
                                     </div>
                                 </div>
 
-                                <button data-toggle="modal" data-target="#modalEditarTicket"
+                                <button
+                                    data-toggle="modal"
+                                    data-target="#modalEditarTicket"
                                     (click)="abrirModalEditar(ticket)"
-                                    style="border: none; background: transparent; color: hsl(var(--primary)); font-size: 0.875rem;">
+                                    class="tickets-icon-button"
+                                >
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
-                                <button class="btn btn-danger" (click)="eliminarRegistro(i, ticket)"
-                                    style="border: none; background: transparent; color: hsl(var(--primary)); font-size: 0.875rem;">
-                                    <img src="\img\icons8-basura-24.png" alt="Eliminar"> </button>
+                                <button
+                                    class="btn btn-danger tickets-icon-button"
+                                    (click)="eliminarRegistro(i, ticket)"
+                                >
+                                    <img src="\img\icons8-basura-24.png" alt="Eliminar"> 
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -155,7 +149,7 @@
             </div>
         </main>
     </div>
-    <!-- Modal -->
+
     <div class="modal fade" id="modalAgregarTicket" tabindex="-1" role="dialog"
         aria-labelledby="modalAgregarTicketLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -203,7 +197,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" (click)="guardarTicket()"> Save changes</button>
+                    <button type="button" class="btn-ticket btn btn-secondary" (click)="guardarTicket()"> Save changes</button>
                 </div>
             </div>
         </div>
@@ -230,7 +224,8 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" (click)="actualizarEstadoTicket()"> Save changes</button>
+                    <button type="button" class="btn btn-primary" (click)="actualizarEstadoTicket()"> Save
+                        changes</button>
                 </div>
             </div>
         </div>
