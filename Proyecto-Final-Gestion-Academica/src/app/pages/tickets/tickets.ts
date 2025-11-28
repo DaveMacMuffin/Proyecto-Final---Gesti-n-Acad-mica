@@ -64,7 +64,7 @@ export class Tickets {
   async guardarTicket() {
     await this.sql.agregarTicket(this.nuevoTicket);
 
-    const btnClose = document.querySelector('[data-dismiss="modal"]') as HTMLElement;
+    const btnClose = document.querySelector('#modalAgregarTicket [data-dismiss="modal"]') as HTMLElement;
     if (btnClose) btnClose.click();
 
     this.nuevoTicket = {
@@ -77,13 +77,15 @@ export class Tickets {
       fecha_creacion: '',
       fecha_cierre: '',
     };
-    // refrescar la tabla
+    this.ticketsFiltrados = [...this.tickets];
     await this.cargarTickets();
+    await this.cargarCintaTickets();
 
 
   }
   async cargarTickets() {
     this.tickets = await this.sql.conectarAPI2();  // tu función que hace el $.ajax GET
+    console.log("Devuelve api2:", this.tickets)
     this.ticketsFiltrados = [...this.tickets]; //copia de docentes para que al inicio la tabla muestre todo
   }
 
@@ -104,7 +106,7 @@ export class Tickets {
       const tipo = (t.tipo + '').toLowerCase();
       const profesor = (t.profesor || '').toLowerCase();
       const prioridad = (t.prioridad || '').toLowerCase();
-      const estado = (t.estado || '').toLowerCase();
+      const estado = (t.status || '').toLowerCase();
 
       return (
         id.includes(term) ||
@@ -116,6 +118,8 @@ export class Tickets {
     });
   }
   aplicarFiltrosTipo() {
+    this.ticketsFiltrados = [...this.tickets];
+
     let resultado = this.tickets;
 
     // 1) Filtro por categoría
@@ -132,21 +136,21 @@ export class Tickets {
     let resultado = [...this.ticketsFiltrados];
 
     // 2) Ordenamiento
-    if (this.ordenSeleccionado === 'Reciente') {
+    if (this.ordenSeleccionado === 'Reciente') //Descendente
+    {
       resultado.sort((a: any, b: any) => {
-        if (a.fecha < b.fecha)  
-          {
+        if (a.fecha < b.fecha) {
           return 1;
-        } 
-        else  
-          {
+        }
+        else {
           return -1;
         }
       });
     }
-    else if (this.ordenSeleccionado === 'Antiguo') {
+    else if (this.ordenSeleccionado === 'Antiguo')//ascendente
+    {
       resultado.sort((a: any, b: any) => {
-        if (a.fecha > b.fecha) { 
+        if (a.fecha > b.fecha) {
           return 1;
         } else {
           return -1;
@@ -172,5 +176,63 @@ export class Tickets {
     this.tot_resueltos = num_tickets.resueltos_mes || 0;
   }
 
-}
+  ticketEditar = {
+    id_ticket: 0,
+    status: ''
+  };
 
+  ticketEliminar = {
+    id_ticket: '',
+    tipo: '',
+    descripcion: '',
+    prioridad: '',
+    status: '',
+    id_docente: '',
+    fecha_creacion: '',
+    fecha_cierre: '',
+  };
+
+  abrirModalEditar(ticket: any) {
+    this.ticketEditar = {
+      id_ticket: ticket.id,
+      status: ticket.status
+    };
+    console.log("Lo que tiene el modal", this.ticketEditar);
+  }
+
+
+  async actualizarEstadoTicket() {
+    await this.sql.editarTicketEstado(this.ticketEditar);
+
+    const btnClose =
+      document.querySelector('#modalEditarTicket [data-dismiss="modal"]') as HTMLElement;
+    if (btnClose) btnClose.click();
+
+    await this.cargarTickets();
+    await this.cargarCintaTickets();
+    this.ticketsFiltrados = [...this.tickets];
+
+    alert("Estado actualizado correctamente");
+  }
+
+  async eliminarRegistro(index: number, ticket: any) {
+    if (!confirm("¿Estás seguro de eliminar el ticket de " + ticket.tipo + "?")) {
+      return; // Si dice cancelar, no hacemos nada
+    }
+    if (ticket.status == "Resuelto") {
+      await this.sql.eliminarTicketBD(ticket.id);
+      this.tickets.splice(index, 1);
+      this.ticketsFiltrados.splice(index, 1);
+
+      await this.cargarTickets();
+      await this.cargarCintaTickets();
+    }
+    else {
+      alert("Este ticket no ha sido resuelto, no lo puede eliminar");
+    }
+
+
+
+  }
+
+}
