@@ -1,87 +1,65 @@
-<!-- ==================================================== -->
-<!-- ARCHIVO: login.html -->
-<!-- DESCRIPCIÓN: Página de autenticación del sistema -->
-<!-- FUNCIONALIDAD: 
-    - Formulario de inicio de sesión con validación
-    - Campos para usuario y contraseña
-    - Autenticación básica con credenciales de prueba
-    - Diseño institucional con gradiente y branding
--->
-<!-- NOTAS:
-    - Fondo con gradiente institucional (--gradient-institutional)
-    - Branding con logo de graduación y nombre del sistema
-    - Sección de credenciales de prueba para desarrollo
-    - Mensaje de seguridad en pie de página
-    - Diseño responsive con max-width para diferentes pantallas
-    - Estilos con variables CSS del sistema de diseño
-    - TODO: Implementar autenticación real con servicio backend
-    - TODO: Agregar manejo de errores y mensajes de feedback
-    - TODO: Implementar "Recordar usuario" y recuperación de contraseña (opcional)
-    - Iconos representativos mediante emojis genéricos <----- **CAMBIAR POR ICONOS DE MEJOR ESTILO (TODOS LOS ARCHIVOS)**
--->
-<!-- ==================================================== -->
-
-<div class="min-h-screen flex items-center justify-center p-4" style="background: var(--gradient-institutional)">
-    <div class="w-full max-w-md">
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-accent rounded-lg mb-4 shadow-card">
-                <span style="font-size: 2rem;">🎓</span>
-            </div>
-            <h1 class="text-3xl font-bold text-primary-foreground mb-2">
-                Secretaría Académica
-            </h1>
-            <p class="text-primary-foreground" style="opacity: 0.8;">Sistema de Gestión Modular</p>
-        </div>
-
-        <div class="shadow-lg bg-card rounded-lg">
-            <div class="p-6">
-                <h2 class="text-2xl font-bold mb-2">Iniciar Sesión</h2>
-                <p class="mb-4 text-muted-foreground">Ingresa tus credenciales para acceder al sistema</p>
-                <form (ngSubmit)="handleSubmit()" #loginForm="ngForm" style="display: flex; flex-direction: column; gap: 1rem;">
-                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <label for="username">Usuario</label>
-                        <div style="position: relative;">
-                            <span style="position: absolute; left: 0.75rem; top: 0.75rem; height: 1rem; width: 1rem; color: hsl(var(--muted-foreground))">👤</span>
-                            <input
-                                id="username"
-                                type="text"
-                                placeholder="Ingresa tu usuario"
-                                [(ngModel)]="username"
-                                name="username"
-                                style="padding-left: 2.5rem; width: 100%; border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 0.5rem;"
-                                required
-                            />
-                        </div>
-                    </div>
-                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <label for="password">Contraseña</label>
-                        <div style="position: relative;">
-                            <span style="position: absolute; left: 0.75rem; top: 0.75rem; height: 1rem; width: 1rem; color: hsl(var(--muted-foreground))">🔒</span>
-                            <input
-                                id="password"
-                                type="password"
-                                placeholder="Ingresa tu contraseña"
-                                [(ngModel)]="password"
-                                name="password"
-                                style="padding-left: 2.5rem; width: 100%; border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 0.5rem;"
-                                required
-                            />
-                        </div>
-                    </div>
-                    <button type="submit" class="bg-primary text-primary-foreground py-2 rounded font-bold" style="width: 100%;">
-                        Iniciar Sesión
-                    </button>
-                    <div class="text-xs text-center text-muted-foreground p-3 bg-muted rounded">
-                        <p class="font-medium mb-1">Credenciales de prueba:</p>
-                        <p>Usuario: <span style="font-family: monospace; font-weight: bold;">root</span></p>
-                        <p>Contraseña: <span style="font-family: monospace; font-weight: bold;">root</span></p>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <p class="text-center text-sm text-primary-foreground mt-6" style="opacity: 0.6;">
-            Sistema protegido. Acceso solo para personal autorizado.
-        </p>
+<div class="min-h-screen flex items-center justify-center px-4 login-bg">
+  <div class="w-full max-w-sm">
+    <div class="text-center mb-10">
+      <h1 class="login-title">
+        Gestión Académica
+      </h1>
+      <p class="login-subtitle-main">
+        Universidad Panamericana
+      </p>
     </div>
+
+    <div class="login-card">
+      <div class="login-card-header">
+        <h2>Iniciar Sesión</h2>
+        <p>Ingresa tus credenciales para acceder al sistema</p>
+      </div>
+
+      <div class="login-card-body">
+        <form
+          (ngSubmit)="handleSubmit()"
+          #loginForm="ngForm"
+          class="login-form"
+        >
+          <div class="login-form-group">
+            <label class="username" for="username">Usuario</label>
+            <div class="login-input-wrapper">
+              <input
+                id="username"
+                type="text"
+                placeholder="Ingresa tu usuario"
+                [(ngModel)]="username"
+                name="username"
+                class="login-input"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="login-form-group">
+            <label class="pass" for="password">Contraseña</label>
+            <div class="login-input-wrapper">
+              <input
+                id="password"
+                type="password"
+                placeholder="Ingresa tu contraseña"
+                [(ngModel)]="password"
+                name="password"
+                class="login-input"
+                required
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-secondary login-button-full"
+          >
+            Iniciar Sesión
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
 </div>
