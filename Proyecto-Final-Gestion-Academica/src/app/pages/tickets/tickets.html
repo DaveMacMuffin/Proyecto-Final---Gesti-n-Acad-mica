@@ -7,8 +7,8 @@
 
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-3xl font-bold text-foreground mb-2">Tickets & Incidencias</h1>
-                        <p class="text-muted-foreground">
+                        <h1 class="text-up-wine text-3xl font-bold text-foreground mb-2">Tickets & Incidencias</h1>
+                        <p class="text-up-gold text-muted-foreground">
                             Gestión centralizada de solicitudes y reportes
                         </p>
                     </div>
@@ -23,7 +23,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="bg-card rounded-lg shadow-sm p-4">
                         <div class="flex items-center justify-between pb-2">
-                            <h3 class="text_tickets text-sm font-medium text-muted-foreground">Pendientes</h3>
+                            <h3 class="text-up-gold text_tickets text-sm font-medium text-muted-foreground">Pendientes</h3>
                             <i class="fa-solid fa-triangle-exclamation fa-5x"></i>
 
                         </div>
@@ -32,7 +32,7 @@
 
                     <div class="bg-card rounded-lg shadow-sm p-4">
                         <div class="flex items-center justify-between pb-2">
-                            <h3 class="text_tickets text-sm font-medium text-muted-foreground">En Proceso</h3>
+                            <h3 class="text-up-gold text_tickets text-sm font-medium text-muted-foreground">En Proceso</h3>
                             <i class="fa-solid fa-spinner fa-5x"></i>                            
                         </div>
                         <div class="text-3xl font-bold">{{tot_proceso}}</div>
@@ -40,7 +40,7 @@
 
                     <div class="bg-card rounded-lg shadow-sm p-4">
                         <div class="flex items-center justify-between pb-2">
-                            <h3 class="text_tickets text-sm font-medium text-muted-foreground">Resueltos</h3>
+                            <h3 class="text-up-gold text_tickets text-sm font-medium text-muted-foreground">Resueltos</h3>
                             <i class="fa-solid fa-check fa-5x" ></i>
                         </div>
                         <div class="text-3xl font-bold">{{tot_resueltos}}</div>
@@ -83,7 +83,7 @@
 
                 <div class="bg-card rounded-lg shadow-sm">
                     <div class="p-6 border-b border-border">
-                        <h3 class="text-lg font-semibold">Lista de Tickets</h3>
+                        <h3 class="text-up-wine text-lg font-semibold">Lista de Tickets</h3>
                     </div>
                     <div class="p-6">
                         <div class="tickets-list-scroll">
@@ -96,8 +96,8 @@
                                     </div>
 
                                     <div class="tickets-info">
-                                        <p class="font-semibold">{{ticket.tipo}}</p>
-                                        <p class="text-sm text-muted-foreground">{{ticket.profesor}}</p>
+                                        <p class="text-up-wine font-semibold">{{ticket.tipo}}</p>
+                                        <p class="text-up-gold text-sm text-muted-foreground">{{ticket.profesor}}</p>
                                     </div>
 
                                     <div class="flex items-center gap-2">
