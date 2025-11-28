@@ -37,31 +37,18 @@ import { NotFound } from './pages/not-found/not-found';
 import { ReportesAcademico } from './pages/reportes-academico/reportes-academico';
 import { ReportesDireccion } from './pages/reportes-direccion/reportes-direccion';
 import { Tickets } from './pages/tickets/tickets';
-import { Navbar } from './components/layout/navbar/navbar';
-import { Sidebar } from './components/layout/sidebar/sidebar';
-import { Footer } from './components/layout/footer/footer';
+import { NavbarComponent } from './components/layout/navbar/navbar.component';
+import { SidebarComponent } from './components/layout/sidebar/sidebar.component';
+import { FooterComponent } from './components/layout/footer/footer.component';
+import { LayoutModule } from './components/layout/layout.module';
 
 @NgModule({
-  declarations: [
-    App,
-    Index,
-    Dashboard,
-    DocenteNumeralia,
-    DocentePerfil,
-    Docentes,
-    Login,
-    NotFound,
-    ReportesAcademico,
-    ReportesDireccion,
-    Tickets,
-    Navbar,
-    Sidebar,
-    Footer
-  ],
+  declarations: [App],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    LayoutModule
   ],
   providers: [
     { provide: ErrorHandler }

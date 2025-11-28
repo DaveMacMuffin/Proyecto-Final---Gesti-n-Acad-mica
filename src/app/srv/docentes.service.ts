@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-
-declare const $:any;
+import * as $ from 'jquery';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +35,7 @@ export class SqlService {
 async conectarAPI() {
     const datos = await new Promise((resolve, reject) => {
         $.ajax({
-            url: 'http://localhost/web/Proyecto-Final-Gestion-Academica/public/api/endpoint.php',
+            url: 'http://localhost/web/examenFinal/public/api/endpoint.php',
             method: 'GET',
             dataType: 'json',
             success: (res: any) => resolve(res),
@@ -50,7 +49,7 @@ async conectarAPI() {
 agregarDocente(docente:any){
   return new Promise((resolve, reject) => {
     $.ajax({
-      url: 'http://localhost/web/Proyecto-Final-Gestion-Academica/public/api/insert_docente.php',
+      url: 'http://localhost/web/examenFinal/public/api/insert_docente.php',
       type: 'POST',
       data: docente,
       success: (response:any) => {
@@ -69,55 +68,51 @@ agregarDocente(docente:any){
 async getResumenDocentes() {
     const datos = await new Promise((resolve, reject) => {
         $.ajax({
-            url: 'http://localhost/web/Proyecto-Final-Gestion-Academica/public/api/cintaDocente.php',
+            url: 'http://localhost/web/examenFinal/public/api/cintaDocente.php',
             method: 'GET',
             dataType: 'json',
             success: (res: any) => resolve(res),
             error: (err: any) => reject(err)
         });
     });
-
     return datos;
 }
 
 async getDistDocentes() {
     const datos = await new Promise((resolve, reject) => {
         $.ajax({
-            url: 'http://localhost/web/Proyecto-Final-Gestion-Academica/public/api/distDocente.php',
+            url: 'http://localhost/web/examenFinal/public/api/distDocente.php',
             method: 'GET',
-             dataType: 'json',
+            dataType: 'json',
             success: (res: any) => resolve(res),
             error: (err: any) => reject(err)
         });
     });
-
     return datos;
 }
 
 async getsniDistribution() {
     const datos = await new Promise((resolve, reject) => {
         $.ajax({
-            url: 'http://localhost/web/Proyecto-Final-Gestion-Academica/public/api/sniDistribution.php',
+            url: 'http://localhost/web/examenFinal/public/api/sniDistribution.php',
             method: 'GET',
-             dataType: 'json',
+            dataType: 'json',
             success: (res: any) => resolve(res),
             error: (err: any) => reject(err)
         });
     });
-
     return datos;
 }
 async getIdiomaDistribution() {
   const datos = await new Promise((resolve, reject) => {
     $.ajax({
-      url: 'http://localhost/web/Proyecto-Final-Gestion-Academica/public/api/idiomaDistribution.php',
+      url: 'http://localhost/web/examenFinal/public/api/idiomaDistribution.php',
       method: 'GET',
       dataType: 'json',
       success: (res: any) => resolve(res),
       error: (err: any) => reject(err)
     });
   });
-
   return datos;
 }
 
@@ -125,7 +120,7 @@ async getIdiomaDistribution() {
 agregarTicket(ticket:any){
   return new Promise((resolve, reject) => {
     $.ajax({
-      url: 'http://localhost/web/Proyecto-Final-Gestion-Academica/public/api/insert_ticket.php',
+      url: 'http://localhost/web/examenFinal/public/api/insert_ticket.php',
       type: 'POST',
       data: ticket,
       success: (response:any) => {
@@ -143,28 +138,26 @@ agregarTicket(ticket:any){
 async conectarAPI2() {
     const datos = await new Promise((resolve, reject) => {
         $.ajax({
-            url: 'http://localhost/web/Proyecto-Final-Gestion-Academica/public/api/getTickets.php',
+            url: 'http://localhost/web/examenFinal/public/api/getTickets.php',
             method: 'GET',
             dataType: 'json',
             success: (res: any) => resolve(res),
             error: (err: any) => reject(err)
         });
     });
-
     return datos;
 }
 
 async getCintaTickets() {
     const datos = await new Promise((resolve, reject) => {
         $.ajax({
-            url: 'http://localhost/web/Proyecto-Final-Gestion-Academica/public/api/cintaTickets.php',
+            url: 'http://localhost/web/examenFinal/public/api/cintaTickets.php',
             method: 'GET',
             dataType: 'json',
             success: (res: any) => resolve(res),
             error: (err: any) => reject(err)
         });
     });
-
     return datos;
 }
 }

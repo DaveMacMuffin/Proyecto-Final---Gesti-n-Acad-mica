@@ -60,7 +60,7 @@ export class Docentes {
     { id: 5, nombre: 'Dra. Rosa Torres', area: 'Ingeniería', grado: 'Doctorado', sni: 'Nivel III', status: 'Inactivo' },
   ];
    */
- 
+
   async guardarDocente() {
     await this.sql.agregarDocente(this.nuevoDocente);
 
