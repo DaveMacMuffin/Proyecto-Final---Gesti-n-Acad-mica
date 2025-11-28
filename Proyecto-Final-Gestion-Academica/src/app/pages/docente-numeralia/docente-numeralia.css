@@ -1,0 +1,56 @@
+.numeralia-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.numeralia-stat-icon {
+    font-size: 1.25rem;
+}
+
+.numeralia-section-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.numeralia-resumen-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+
+.numeralia-resumen-success {
+    background-color: hsl(var(--success), 0.1);
+    border-color: hsl(var(--success), 0.2);
+}
+
+.numeralia-resumen-success-text {
+    color: hsl(var(--success));
+}
+
+
+.numeralia-resumen-info {
+    background-color: hsl(var(--info), 0.1);
+    border-color: hsl(var(--info), 0.2);
+}
+
+.numeralia-resumen-info-text {
+    color: hsl(var(--info));
+}
+
+
+.numeralia-resumen-accent {
+    background-color: hsl(var(--accent), 0.1);
+    border-color: hsl(var(--accent), 0.2);
+}
+
+.numeralia-resumen-accent-text {
+    color: hsl(var(--accent));
+}
+
+.progress-fill {
+        background-color: #7a1832 !important;
+    border-color: #7a1832 !important;
+}
