@@ -41,7 +41,7 @@
                             Gestión centralizada de solicitudes y reportes
                         </p>
                     </div>
-                    <button data-toggle="modal" data-target="#exampleModal"
+                    <button data-toggle="modal" data-target="#modalAgregarTicket"
                         class="bg-primary text-primary-foreground py-2 px-4 rounded flex items-center gap-2">
                         <span>➕</span>
                         Nuevo Ticket
@@ -75,10 +75,9 @@
                     </div>
                 </div>
 
-                <!-- Search and Filters -->
                 <div class="flex gap-4">
                     <div class="relative" style="flex: 1;">
-                        <input placeholder="Buscar por ID, profesor o categoría..." [(ngModel)]="terminoBusqueda"
+                        <input placeholder="Buscar por profesor, categoría, prioridad o estado..." [(ngModel)]="terminoBusqueda"
                             (input)="searchFilterTicket()"
                             style="padding-left: 2.5rem; width: 100%; border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 0.5rem;" />
                     </div>
@@ -109,12 +108,12 @@
                     <div class="p-6">
                         <div
                             style="max-height: 500px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem;">
-                            <div *ngFor="let ticket of ticketsFiltrados"
+                            <div *ngFor="let ticket of ticketsFiltrados let i = index"
                                 class="flex items-center justify-between p-4 border border-border rounded-lg">
                                 <div class="flex items-center gap-4" style="flex: 1;">
                                     <div class="flex flex-col">
                                         <span
-                                            style="font-family: monospace; font-weight: bold; font-size: 0.875rem;">{{ticket.id}}</span>
+                                            style="font-family: monospace; font-weight: bold; font-size: 0.875rem;">{{i + 1}}</span>
                                         <span class="text-xs text-muted-foreground">{{ticket.fecha}}</span>
                                     </div>
 
@@ -141,10 +140,14 @@
                                     </div>
                                 </div>
 
-                                <button
+                                <button data-toggle="modal" data-target="#modalEditarTicket"
+                                    (click)="abrirModalEditar(ticket)"
                                     style="border: none; background: transparent; color: hsl(var(--primary)); font-size: 0.875rem;">
-                                    Ver Detalles
+                                    <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
+                                <button class="btn btn-danger" (click)="eliminarRegistro(i, ticket)"
+                                    style="border: none; background: transparent; color: hsl(var(--primary)); font-size: 0.875rem;">
+                                    <img src="\img\icons8-basura-24.png" alt="Eliminar"> </button>
                             </div>
                         </div>
                     </div>
@@ -153,18 +156,23 @@
         </main>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="modalAgregarTicket" tabindex="-1" role="dialog"
+        aria-labelledby="modalAgregarTicketLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Añadir docente</h5>
+                    <h5 class="modal-title" id="modalAgregarTicketLabel">Añadir ticket</h5>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Tipo de ticket</label>
-                        <input class="form-control" name="tipo" [(ngModel)]="nuevoTicket.tipo"
-                            placeholder="Ingrese el tipo del ticket">
+                        <select class="form-select" name="tipo" [(ngModel)]="nuevoTicket.tipo">
+                            <option value="Cambio de calificación"> Cambio de Calificación</option>
+                            <option value="Incidencia de pago">Incidencia de Pago</option>
+                            <option value="Reporte diciplinar">Reporte Diciplinar</option>
+                            <option value="Cambio de fecha de examen">Cambio de fecha de Examen</option>
+                            <option value="Integridad académica">Integridad Académica</option>
+                        </select>
                     </div>
 
                     <div class="mb-3">
@@ -196,6 +204,33 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" (click)="guardarTicket()"> Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEditarTicket" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Actualizar estado</h5>
+                </div>
+
+                <div class="modal-body">
+
+                    <label class="form-label">Estado del ticket</label>
+                    <select class="form-select" [(ngModel)]="ticketEditar.status">
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="En Proceso">En Proceso</option>
+                        <option value="Resuelto">Resuelto</option>
+                    </select>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="actualizarEstadoTicket()"> Save changes</button>
                 </div>
             </div>
         </div>
