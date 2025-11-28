@@ -1,0 +1,87 @@
+.docentes-wrapper {
+    max-width: 80rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.docentes-search-container {
+    flex: 1;
+}
+
+.docentes-search-input {
+    padding-left: 2.5rem;
+    width: 100%;
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    padding: 0.5rem;
+}
+
+.docentes-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.docentes-header-row {
+    border-bottom: 1px solid hsl(var(--border));
+}
+
+.docentes-th {
+    text-align: left;
+    padding: 0.75rem;
+    font-weight: 500;
+}
+
+.docentes-row {
+    border-bottom: 1px solid hsl(var(--border));
+}
+
+.docentes-td {
+    padding: 0.75rem;
+}
+
+.btn-inline-icon {
+    border: none;
+    background: transparent;
+    color: hsl(var(--primary));
+    font-size: 0.875rem;
+}
+
+.badge-base {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius);
+    font-size: 0.75rem;
+}
+
+.badge-sni {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+}
+
+.badge-sni-na {
+    background-color: hsl(var(--muted));
+    color: hsl(var(--muted-foreground));
+}
+
+.badge-status-activo {
+    background-color: hsl(var(--success));
+    color: hsl(var(--success-foreground));
+}
+
+.badge-status-inactivo {
+    background-color: hsl(var(--muted));
+    color: hsl(var(--muted-foreground));
+}
+
+.btn-docente {
+    background-color: #7a1832 !important;
+    border-color: #7a1832 !important;
+    color: #ffffff !important;
+}
+
+.btn-docente:hover {
+    background-color: #5f1227 !important;
+    border-color: #5f1227 !important;
+}
