@@ -1,0 +1,101 @@
+
+.login-bg {
+    background: #7a1832;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.login-title {
+    color: #c09b57;
+    font-size: 2.9rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+}
+
+.login-subtitle-main {
+    color: #ffffff;
+    font-size: 1.5rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: bolder;
+}
+
+.login-card {
+    background: #ffffff;
+    border-radius: 0.9rem;
+    height: 500px;
+}
+
+.login-card-header {
+    padding: 1.7rem;
+}
+
+.login-card-header h2 {
+
+    font-size: 2.5rem;
+    font-weight: bolder;
+    color: #7a1832;
+}
+
+.login-card-header p {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    color: #c09b57;
+    font-weight: bold;
+
+}
+
+.login-card-body {
+    padding: 1.7rem;
+}
+
+.login-form {
+    display: flex;
+    flex-direction:column;
+    gap: 1.2rem;
+}
+
+.login-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.login-input {
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid #c09b57;
+    padding: 0.6rem 0.7rem;
+    font-size: 0.9rem;
+    color: #c09b57;
+    background-color: #ffffff;
+}
+
+.login-button-full {
+    width: 100%;
+    margin-top: 0.5rem;
+    border: 1px solid #c09b57;
+    border-radius: 900px;
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    background-color: #7a1832;
+    cursor: pointer;
+}
+
+.login-button-full:hover {
+    background-color: #c09b57;
+}
+
+.username {
+    font-size: 1.5rem !important;
+    font-weight: bold;
+
+}
+.pass {
+    font-size: 1.5rem !important;
+    font-weight: bold;
+
+}
